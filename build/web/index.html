@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>GESTOR SCRUM</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css"/>
+        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="css/estilos.css" type="text/css">
+
+    </head>
+    <body>
+        <div id="panelAcceso" class="panel panel-primary">
+            <div class="panel-heading centrado">Acceso al Sistema</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12 centrado">
+                        <img src="imagen/login.jpg" alt=""/>
+                    </div>
+                </div>
+                <form id="formAcceso">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Usuario</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="usuario_usuario" name="usuario_usuario" type="text"
+                            class="form-control">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Contraseña</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input id="password_usuario" name="password_usuario" type="password"
+                            class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer centrado">
+                <button id="botonIngresar" type="button" class="btn btn-primary btn-sm"><b>Ingresar</b></button>
+            </div>
+        </div>
+        <div id="mensajes" class="well well-sm centrado">Mensajes del Sistema</div>
+        <script src = "js/jquery.min.js" type="text/javascript"></script>
+        <script src = "js/bootstrap.min.js" type="text/javascript"></script>
+        <script src = "js/funciones.js" type="text/javascript"></script>
+        <script>
+           // cerrarSesion();
+            $("usuario_usuario").focus();
+            //siguienteCampo("usuario_usuario","#password_usuario",false);
+            //siguienteCampo("password_usuario","#botonIngresar",false);
+            $("#botonIngresar").on('click',function(){
+                validarAcceso();
+            });
+        </script>
+    </body>
+</html>

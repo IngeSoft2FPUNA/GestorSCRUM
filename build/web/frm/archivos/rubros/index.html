@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>RUBROS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../../css/bootstrap-theme.css" type="text/css">
+        <link rel="stylesheet" href="../../../css/bootstrap-theme.css" type="text/css"/>
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css" type="text/css"/>
+    </head>
+    <body>
+        <div id="confirmar"></div>
+        <div id="buscar"></div>
+        <div id="panelPrograma" class="panel panel-primary">
+            <div class="panel-heading centrado"> rubros | <span 
+            id="susuario_usuario"></span></div>
+            <div class="panel-body">
+                <form id="formPrograma">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <span>Id</span>                            
+                        </div>
+                        <div class="col-md-1">
+                            <input id="id_rubro" name="id_rubro" type="text" class="form-control input-sm" placeholder="Id">                            
+                        </div>                        
+                        <div class="col-md-1">
+                            <button id="botonBuscarIdRubro" type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>                        
+                        <div class="col-md-9">    
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <span>Nombre</span>
+                        </div>
+                        <div class="col-md-11">
+                            <input id="nombre_rubro" name="nombre_rubro" type="text" class="form-control input-sm" placeholder="Nombre" onkeyup="this.value=this.value.toUpperCase()">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer centrado">
+                <button id="botonAgregar" type="button" class="btn btn-primary btn-sm">Agregar</button>
+                <button id="botonModificar" type="button" class="btn btn-primary btn-sm">Modificar</button>
+                <button id="botonEliminar" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmarEliminar">Eliminar</button>
+                <button id="botonSalir" type="button" class="btn btn-primary btn-sm">Salir</button>                
+            </div>
+        </div>
+        <div id="mensajes" class="well well-sm centrado">Mensajes del Sistema.</div>
+        <div class=" modal fade" id="confirmarEliminar" tabindex="-1" role="dialog" aria-labelledby="MyModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header centrado">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Mensaje del Sistema.</h4>
+                    </div>
+                    <div class="modal-body">
+                        Está seguro de eliminar estos datos?
+                    </div>
+                    <div class="modal-footer centrado">
+                        <button id="botonEliminarAlert" type="button" class="btn btn-primary btn-sm">Eliminar</button>
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="../../../js/jquery.min.js" type="text/javascript"></script>
+        <script src="../../../js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/funciones.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            
+            $("#buscar").css("display", "none");
+            $("#id_rubro").focus();
+            
+            $("#id_rubro").focusout(function(event){
+                if ($("#id_rubro").val() === "") {
+                    $("#id_rubro").val("0");
+                }
+                buscarIdRubro();
+            });
+            
+            //boton buscar
+            $("#botonBuscarIdRubro").on('click',function(){
+                $("#buscar").load("buscar.html");
+                $("#buscar").fadeIn("slow");
+                $("#panelPrograma").fadeOut("slow");           
+            });
+            
+            //boton agregar
+            $("#botonAgregar").on('click',function(){
+                if (validarFormulario()) {
+                    agregarRubro();
+                }
+            });            
+            
+            //boton modificar
+            $("#botonModificar").on('click',function(){
+                if (validarFormulario()) {
+                    modificarRubro();
+                }
+            });
+            
+            //boton eliminar
+            $("#botonEliminarAlert").on('click',function(){
+                eliminarRubro();
+                $("#confirmarEliminar").modal('hide');
+                
+            });
+            
+            //boton salir
+            $("#botonSalir").on('click',function(){ location.href = "../../../menu.html";});
+            
+        </script>    
+    </body>
+</html>

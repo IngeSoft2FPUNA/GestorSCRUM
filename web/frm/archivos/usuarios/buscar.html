@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>BUSCAR USUARIOS</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../../../css/bootstrap-theme.css" type="text/css">
+        <link rel="stylesheet" href="../../../css/bootstrap-theme.css" type="text/css"/>
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="../../../css/bootstrap.min.css" type="text/css"/>
+    </head>
+    <body>
+        <div id="panelBuscar" class="panel panel-primary">
+            <div class="panel-heading centrado">Buscar Usuarios</div>
+            <div class="panel-body">
+                <form id="formBuscar">
+                    <input type="hidden" id="bpagina" name="bpagina" value="1"/>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <span>Nombre</span>                        
+                        </div>
+                        <div class="cold-md-9">
+                            <input id="bnombre_usuario" name="bnombre_usuario" type="text" class="form-control input-sm" placeholder="Nombre"/>                        
+                        </div>
+                        <div class="col-md-2">
+                            <button id="botonBuscar" type="button" class="btn btn-primary btn-sm" >Buscar</button>                        
+                        </div>
+                    </div>
+                </form>
+                <br>
+                <div id="resultado">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Cedula</th>
+                                <th>Nombre</th>
+                                <th>Username</th>
+                                <th>Correo Electronico</th>
+                                <th>Password</th>
+                            </tr>
+                        </thead>
+                        <tbody id="contenidoBusqueda">                            
+                        </tbody>
+                    </table>
+                    <nav>
+                        <ul class="pager">
+                            <li id="anterior"><a href="#"><span aria-hidden="true">&larr;</span></a>Anterior</li>
+                            <li id="siguiente"><a href="#">Siguiente<span aria-hidden="true">&rarr;</span></a></li>                        
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="panel-footer centrado">
+                <button id="botonSalirBuscar" type="button" class="btn btn-primary btn-sm">Salir</button>
+            </div>
+        </div>
+        <script src="../../../js/jquery.min.js" type="text/javascript"></script>
+        <script src="../../../js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/funciones.js" type="text/javascript"></script>        
+        <script type="text/javascript">
+            buscarNombreUsuario();
+           
+            $("#bnombre_usuario").focus();
+            //siguienteCampo("#bnombre_usuario","#botonBuscar",false);
+            
+            //al presionar el boton buscar
+            $("#botonBuscar").on("click",function(){
+                $("#contenidoBusqueda").html("");
+                $("#bpagina").val("1");
+                buscarNombreUsuario();
+                $("#bnombre_usuario").focus();
+            });
+            
+            //al presionar el boton anterior
+            $("#anterior").on("click",function(){
+                $("#contenidoBusqueda").html("");
+                var pag = parseInt($("#bpagina").val());
+                if (pag>1) {
+                    $("#bpagina").val(pag - 1);
+                }                
+                buscarNombreUsuario();
+            });
+            
+            //al presionar el boton siguiente
+            $("#siguiente").on("click",function(){
+                $("#contenidoBusqueda").html("");
+                var pag = parseInt($("#bpagina").val());
+                $("#bpagina").val(pag + 1);
+                buscarNombreUsuario();
+            });
+            
+            //al presionar el boton salir
+            $("#botonSalirBuscar").on("click",function(){
+                $("#buscar").fadeOut("slow");
+                $("#panelPrograma").fadeIn("slow");                
+            });
+        </script>
+    </body>
+</html>
