@@ -15,6 +15,8 @@ function buscarIdProyecto(){
             $("#mensajes").html(json.mensaje);
             $("#id_proyecto").val(json.id_proyecto);
             $("#nombre_proyecto").val(json.nombre_proyecto);
+            $("#descripcion_proyecto").val(json.nombre_proyecto);
+            $("#nombre_proyecto").val(json.nombre_proyecto);
             
             if (json.nuevo === "true") {
                 $("#botonAgregar").prop('disabled',false);

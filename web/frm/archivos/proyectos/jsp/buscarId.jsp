@@ -5,7 +5,7 @@
 
 <%
     //se obtiene el id del formulario
-    int id_proyecto = Integer.parseInt(request.getParameter("id_proyecto"));
+    String id_proyecto = request.getParameter("id_proyecto");
     String nombreProyecto = request.getParameter("nombre_proyecto");
 
     String tipo = "error";
@@ -14,9 +14,11 @@
 
     Proyecto proyecto = new Proyecto();
     proyecto.setId_proyecto(id_proyecto);
-    proyecto.setNombreProyecto(nombreProyecto);
+    proyecto.setNombre_proyecto(nombreProyecto);
+    
     ProyectoControlador.buscarId(proyecto);
-    if ( proyecto.getId_proyecto() != 0) {
+    
+    if ( proyecto.getId_proyecto().equalsIgnoreCase("")) {
         tipo = "success";
         mensaje = "Datos encontrados";
         nuevo = "false";
@@ -29,7 +31,9 @@
     obj.put("mensaje", mensaje);
     obj.put("nuevo", nuevo);
     obj.put("id_proyecto", proyecto.getId_proyecto());
-    obj.put("nombre_proyecto", proyecto.getNombreProyecto());
+    obj.put("nombre_proyecto", proyecto.getNombre_proyecto());
+    obj.put("descripcion", proyecto.getDescripcion_proyecto());
+    obj.put("duedate", proyecto.getDuedate());
     
     out.print(obj);
     out.flush();

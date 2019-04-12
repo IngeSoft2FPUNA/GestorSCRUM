@@ -19,18 +19,23 @@
             <div class="panel-body">
                 <form id="formPrograma">
                     <div class="row">
+                        <!--ID PROYECTO-->
                         <div class="col-md-1">
                             <span>Id</span>                            
                         </div>
                         <div class="col-md-1">
                             <input id="id_proyecto" name="id_proyecto" type="text" class="form-control input-sm" placeholder="Id">                            
-                        </div>                        
+                        </div>
+                        
                         <div class="col-md-1">
                             <button id="botonBuscarIdProyecto" type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span></button>
-                        </div>                        
+                        </div> 
+                        
                         <div class="col-md-9">    
                         </div>                        
                     </div>
+                    
+                    <!--NOMBRE-->
                     <div class="row">
                         <div class="col-md-11">
                             <span>Nombre</span>
@@ -39,14 +44,27 @@
                             <input id="nombre_proyecto" name="nombre_proyecto" type="text" class="form-control input-sm" placeholder="Nombre" onkeyup="this.value=this.value.toUpperCase()">
                         </div>
                     </div>
+                    
+                    <!--DESCRIPCION-->
                     <div class="row">
                         <div class="col-md-11">
                             <span>Descripcion</span>
                         </div>
                         <div class="col-md-11">
-                            <input id="nombre_proyecto" name="nombre_proyecto" type="text" class="form-control input-sm" placeholder="Nombre" onkeyup="this.value=this.value.toUpperCase()">
+                            <input id="descripcion_proyecto" name="descripcion_proyecto" type="text" class="form-control input-sm" placeholder="Descripcion" onkeyup="this.value=this.value.toUpperCase()">
                         </div>
                     </div>
+
+                    <!--FECHA ENTREGA-->
+                    <div class="row">
+                        <div class="col-md-11">
+                            <span>Fecha Entrega</span>
+                        </div>
+                        <div class="col-md-11">
+                            <input id="fecha_entrega" name="fecha_entrega" type="date" class="form-control input-sm" placeholder="Fecha de Entrega" onkeyup="this.value=this.value.toUpperCase()">
+                        </div>
+                    </div>
+                    
                 </form>
             </div>
             <div class="panel-footer centrado">
