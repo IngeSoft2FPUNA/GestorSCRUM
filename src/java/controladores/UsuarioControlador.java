@@ -54,6 +54,7 @@ public class UsuarioControlador {
                     usuario.setEmail(rs.getString("correo_electronico"));
                     usuario.setUsuario(rs.getString("nick_usuario"));
                     usuario.setPassword(rs.getString("password"));
+                    usuario.setActivo(rs.getBoolean("activo"));
                 }else{
                     usuario.setCedula(0);
                     usuario.setNombre("");
@@ -74,7 +75,7 @@ public class UsuarioControlador {
         if (Conexion.conectar()) {
             
             try {
-                String sql = "SELECT * FROM usuarios WHERE UPPER(nombre_apellido) LIKE '%"
+                String sql = "SELECT * FROM usuarios WHERE activo = 'TRUE' AND UPPER(nombre_apellido) LIKE '%"
                         +nombre.toUpperCase()+"%'" + "ORDER BY id_usuario offset " + offset + "LIMIT "
                         + Utiles.REGISTRO_PAGINA;
                 System.out.println("----->" + sql);
@@ -112,7 +113,7 @@ public class UsuarioControlador {
         return valor;
     }
     
-    public static boolean modificar(Usuario usuario){
+    public static boolean modificar(Usuario usuario, int id_usuario){
         boolean valor = false;
         
         if (Conexion.conectar()) {
@@ -123,7 +124,7 @@ public class UsuarioControlador {
                     + "correo_electronico = '"+usuario.getEmail()+"',"
                     + "nick_usuario = '"+usuario.getUsuario()+"',"
                     + "password = '"+ Utiles.md5(Utiles.quitarGuiones(usuario.getPassword()))+"'"
-                    +"WHERE nick_usuario= '"+usuario.getUsuario()+"'";
+                    +"WHERE cedula= '"+id_usuario+"'";
             
             System.out.println(sql);
             
@@ -143,7 +144,7 @@ public class UsuarioControlador {
         
         if (Conexion.conectar()) {
             
-            String sql = "DELETE FROM usuarios WHERE nick_usuario = '"+usuario.getUsuario()+"'";
+            String sql = "UPDATE usuarios SET activo = 'false' WHERE cedula = '"+usuario.getCedula()+"'";
             System.out.println(sql);
             try {
                 Conexion.getSt().executeUpdate(sql);
@@ -160,7 +161,7 @@ public class UsuarioControlador {
       System.out.println("password"+usuario.getPassword());
         if (Conexion.conectar()) {
             try {
-                String sql = "SELECT * FROM usuarios WHERE nick_usuario = ? AND password = ?";
+                String sql = "SELECT * FROM usuarios WHERE nick_usuario = ? AND password = ? AND activo = 'TRUE'";
                 
                 try(PreparedStatement ps = Conexion.getConn().prepareStatement(sql)) {
                     ps.setString(1, Utiles.quitarGuiones(usuario.getUsuario()));

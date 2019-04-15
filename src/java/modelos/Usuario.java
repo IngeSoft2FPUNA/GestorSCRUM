@@ -6,6 +6,7 @@ public class Usuario {
 	private int cedula;
 	private String email;
 	private String password;
+        private boolean activo;
 
 	public Usuario (String user, String name, int cedula, String email, String password){
 		this.usuario=user;
@@ -14,6 +15,14 @@ public class Usuario {
 		this.email=email;
 		this.password=password;
 	}
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
 
         public Usuario() {
         }

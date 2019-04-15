@@ -7,6 +7,7 @@
 <%
     //se capturan los datos del formulario, creo
     int id_usuario = Integer.parseInt(request.getParameter("id_usuario"));
+    
     String nombre_usuario = request.getParameter("nombre_usuario");
     int cedula = Integer.parseInt(request.getParameter("cedula"));
     String correo = request.getParameter("correo_electronico");
@@ -20,7 +21,7 @@
     
     //se instancia un objeto del tipo usuario
     Usuario usuario = new Usuario();
-    usuario.setCedula(id_usuario);
+
     usuario.setNombre(nombre_usuario);
     usuario.setCedula(cedula);
     usuario.setEmail(correo);
@@ -29,7 +30,7 @@
 
     
     //se intenta agregar un nuevo usuario a la bd
-    if (UsuarioControlador.modificar(usuario)) {
+    if (UsuarioControlador.modificar(usuario, id_usuario)) {
             tipo = "success";
             mensaje = "Datos Modificados.";                       
     }

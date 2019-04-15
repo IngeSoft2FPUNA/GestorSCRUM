@@ -19,7 +19,7 @@ function buscarIdUsuario(){
             $("#correo_electronico").val(json.correo);
             $("#nick_usuario").val(json.login_usuario);
             $("#password_usuario").val(json.password_usuario);
-
+            $("#activo_usuario").val(json.activo);
             
             if (json.nuevo === "true") {
                 $("#botonAgregar").prop('disabled',false);
