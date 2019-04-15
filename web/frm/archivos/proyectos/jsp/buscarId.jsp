@@ -18,22 +18,22 @@
     
     ProyectoControlador.buscarId(proyecto);
     
-    if ( proyecto.getId_proyecto().equalsIgnoreCase("")) {
+    if ( !proyecto.getId_proyecto().equalsIgnoreCase("")) {
         tipo = "success";
         mensaje = "Datos encontrados";
         nuevo = "false";
     }else{
         proyecto = new Proyecto();
     }
-
+    
     JSONObject obj = new JSONObject();
     obj.put("tipo", tipo);
     obj.put("mensaje", mensaje);
     obj.put("nuevo", nuevo);
     obj.put("id_proyecto", proyecto.getId_proyecto());
     obj.put("nombre_proyecto", proyecto.getNombre_proyecto());
-    obj.put("descripcion", proyecto.getDescripcion_proyecto());
-    obj.put("duedate", proyecto.getDuedate());
+    obj.put("descripcion_proyecto", proyecto.getDescripcion_proyecto());
+    obj.put("fecha_entrega", proyecto.getDuedate());
     
     out.print(obj);
     out.flush();

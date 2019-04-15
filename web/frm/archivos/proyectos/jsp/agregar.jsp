@@ -5,7 +5,7 @@
 
 
 <%
-    //se capturan los datos del formulario, creo
+    //se capturan los datos del formulario
     String id_proyecto = request.getParameter("id_proyecto");
     String nombre_proyecto = request.getParameter("nombre_proyecto");
     String descripcion_proyecto = request.getParameter("descripcion_proyecto");

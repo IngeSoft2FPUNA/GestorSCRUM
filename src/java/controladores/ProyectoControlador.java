@@ -45,7 +45,10 @@ public class ProyectoControlador {
 
    public static Proyecto buscarId(Proyecto proyecto){
         if (Conexion.conectar()) {
-            String sql = "SELECT * FROM proyectos WHERE id_proyecto = '"+proyecto.getId_proyecto()+"'";
+            String sql = "SELECT * FROM proyectos WHERE UPPER(id_proyecto) LIKE '%"+proyecto.getId_proyecto()+"%'";
+            
+            System.out.println("----->" + sql);
+            
             try {
                 ResultSet rs = Conexion.getSt().executeQuery(sql);
                 if (rs.next()) {
@@ -61,6 +64,8 @@ public class ProyectoControlador {
                 System.err.println("Error :"+ex);
             }
         }
+        
+        System.out.println(proyecto);
         return proyecto;     
         
     }   
@@ -109,8 +114,7 @@ public class ProyectoControlador {
         System.out.println("estoy aca 2");
         return valor;
     }    
-    
-    
+        
     public static boolean eliminar(Proyecto proyecto){
         boolean valor = false;
         
@@ -128,4 +132,28 @@ public class ProyectoControlador {
         return valor;
     }
     
+    public static boolean modificar(Proyecto proyecto, String id_proyecto){
+        boolean valor = false;
+        
+        if (Conexion.conectar()) {
+            
+            String sql = "UPDATE proyectos SET "
+                    + "nombre = '"+proyecto.getNombre_proyecto()+"',"
+                    + "duedate = '"+proyecto.getDuedate()+"',"
+                    + "descripcion = '"+proyecto.getDescripcion_proyecto()+"'"
+                    +"WHERE id_proyecto= '"+id_proyecto+"'";
+            
+            System.out.println(sql);
+            
+            try {
+                Conexion.getSt().executeUpdate(sql);
+                valor = true;
+            } catch (SQLException e) {
+                System.out.println("Error: "+ e);
+            }            
+        }
+        
+        return valor;
+    }
+
 }

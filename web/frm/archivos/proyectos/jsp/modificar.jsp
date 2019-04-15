@@ -5,9 +5,11 @@
 
 
 <%
-    //se capturan los datos del formulario, creo
-    int id_proyecto = Integer.parseInt(request.getParameter("id_proyecto"));
+    //se capturan los datos del formulario
+    String id_proyecto = request.getParameter("id_proyecto");
     String nombre_proyecto = request.getParameter("nombre_proyecto");
+    String descripcion_proyecto = request.getParameter("descripcion_proyecto");
+    String duedate = request.getParameter("fecha_entrega");
     
     //se definen variables para el tipo de mensaje y el mensaje
     String tipo = "error";
@@ -16,10 +18,12 @@
     //se instancia un objeto del tipo proyecto
     Proyecto proyecto = new Proyecto();
     proyecto.setId_proyecto(id_proyecto);
-    proyecto.setNombreProyecto(nombre_proyecto);
+    proyecto.setNombre_proyecto(nombre_proyecto);
+    proyecto.setDescripcion_proyecto(descripcion_proyecto);
+    proyecto.setDuedate(duedate);
     
     //se intenta agregar un nuevo proyecto a la bd
-    if (ProyectoControlador.modificar(proyecto)) {
+    if (ProyectoControlador.modificar(proyecto, id_proyecto)) {
             tipo = "success";
             mensaje = "Datos Modificados.";                       
     }
