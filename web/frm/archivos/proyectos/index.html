@@ -101,12 +101,12 @@
             $("#buscar").css("display", "none");
             $("#id_proyecto").focus();
             
-//            $("#id_proyecto").focusout(function(event){
-//                if ($("#id_proyecto").val() === "") {
-//                    $("#id_proyecto").val("0");
-//                }
-//                buscarIdProyecto();
-//            });
+            $("#id_proyecto").focusout(function(event){
+                if ($("#id_proyecto").val() === "") {
+                    $("#id_proyecto").val("0");
+                }
+                buscarIdProyecto();
+            });
             
             //boton buscar
             $("#botonBuscarIdProyecto").on('click',function(){

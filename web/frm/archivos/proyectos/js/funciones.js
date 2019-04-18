@@ -13,7 +13,7 @@ function buscarIdProyecto(){
         },
         success: function(json){
             $("#mensajes").html(json.mensaje);
-            $("#id_proyecto").val(json.id_proyecto);
+            //$("#id_proyecto").val(json.id_proyecto);
             $("#nombre_proyecto").val(json.nombre_proyecto);
             $("#descripcion_proyecto").val(json.descripcion_proyecto);
             $("#fecha_entrega").val(json.fecha_entrega);
@@ -169,6 +169,8 @@ function limpiarFormulario(){
     //se limpian los campos de textos
     $("#id_proyecto").val("0");
     $("#nombre_proyecto").val("");
+    $("#descripcion_proyecto").val("");
+    $("#fecha_entrega").val("");
     
 }//fin de la funcion
 

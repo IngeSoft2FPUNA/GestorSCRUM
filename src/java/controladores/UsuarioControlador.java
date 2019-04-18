@@ -115,6 +115,7 @@ public class UsuarioControlador {
     
     public static boolean modificar(Usuario usuario, int id_usuario){
         boolean valor = false;
+        String cadena_activo = usuario.isActivo()?"TRUE":"FALSE";
         
         if (Conexion.conectar()) {
             
@@ -123,7 +124,8 @@ public class UsuarioControlador {
                     + "cedula = "+usuario.getCedula()+","
                     + "correo_electronico = '"+usuario.getEmail()+"',"
                     + "nick_usuario = '"+usuario.getUsuario()+"',"
-                    + "password = '"+ Utiles.md5(Utiles.quitarGuiones(usuario.getPassword()))+"'"
+                    + "password = '"+ Utiles.md5(Utiles.quitarGuiones(usuario.getPassword()))+"',"
+                    + "activo = '"+cadena_activo+"'"
                     +"WHERE cedula= '"+id_usuario+"'";
             
             System.out.println(sql);
@@ -157,8 +159,9 @@ public class UsuarioControlador {
     }
 
     public static Usuario validarAcceso(Usuario usuario, HttpServletRequest request){
-     System.out.println("login"+usuario.getUsuario());
-      System.out.println("password"+usuario.getPassword());
+      System.out.println("login:"+usuario.getUsuario());
+      System.out.println("password:"+usuario.getPassword());
+      System.out.println("password md5:"+Utiles.md5(Utiles.quitarGuiones(usuario.getPassword())));
         if (Conexion.conectar()) {
             try {
                 String sql = "SELECT * FROM usuarios WHERE nick_usuario = ? AND password = ? AND activo = 'TRUE'";
@@ -177,7 +180,8 @@ public class UsuarioControlador {
                         usuario.setNombre(rs.getString("nombre_apellido"));
                         usuario.setUsuario(rs.getString("nick_usuario"));
                         usuario.setPassword(rs.getString("password"));
-
+                        System.out.println(Utiles.md5(rs.getString("password")));
+                        
                         sesion.setAttribute("usuarioLogueado", usuario);
                         
                     }else{
