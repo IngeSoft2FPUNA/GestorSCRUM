@@ -21,14 +21,16 @@ public class UsuarioControlador {
     //agregar metodo agregar
     public static boolean agregar(Usuario usuario){
         boolean valor = false;
+        String cadena_activo = usuario.isActivo()?"TRUE":"FALSE";
         
         if (Conexion.conectar()) {
-            String sql = "INSERT INTO usuarios(nombre_apellido, cedula, correo_electronico, nick_usuario, password)"
+            String sql = "INSERT INTO usuarios(nombre_apellido, cedula, correo_electronico, nick_usuario, password, activo)"
                     + "values('"+usuario.getNombre()+"'"
                     +","+usuario.getCedula()
                     +",'"+usuario.getEmail()+"'"
                     +",'"+usuario.getUsuario()+"'"
                     +",'"+Utiles.md5(Utiles.quitarGuiones(usuario.getPassword()))+"'"
+                    +",'"+cadena_activo+"'"
                     +")";
             
             System.out.println(sql);

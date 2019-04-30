@@ -15,7 +15,7 @@
         <div id="confirmar"></div>
         <div id="buscar"></div>
         <div id="panelPrograma" class="panel panel-primary">
-            <div class="panel-heading centrado">proyectos | <span 
+            <div class="panel-heading centrado">Mis Proyectos | <span 
             id="susuario_usuario"></span></div>
             <div class="panel-body">
                 <form id="formPrograma">
@@ -30,23 +30,6 @@
                         
                         <div class="col-md-1">
                             <button id="botonBuscarIdProyecto" type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span></button>
-                        </div> 
-                        
-                        <div class="col-md-9">    
-                        </div>                        
-                    </div>
-                    
-                    <div class="row">
-                        <!--ID SCRUM MASTER-->
-                        <div class="col-md-1">
-                            <span>Id</span>                            
-                        </div>
-                        <div class="col-md-1">
-                            <input id="id_scrum_master" name="id_scrum_master" type="text" class="form-control input-sm" placeholder="Scrum Master">                            
-                        </div>
-                        
-                        <div class="col-md-1">
-                            <button id="botonBuscarIdScrumMaster" type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"></span></button>
                         </div> 
                         
                         <div class="col-md-9">    
@@ -131,13 +114,6 @@
                 $("#buscar").fadeIn("slow");
                 $("#panelPrograma").fadeOut("slow");           
             });
-
-            //boton buscar scrum master
-            $("#botonBuscarIdScrumMaster").on('click',function(){
-                $("#buscar").load("../usuarios/buscar.html");
-                $("#buscar").fadeIn("slow");
-                $("#panelPrograma").fadeOut("slow");           
-            });
             
             //boton agregar
             $("#botonAgregar").on('click',function(){
@@ -161,7 +137,7 @@
             });
             
             //boton salir
-            $("#botonSalir").on('click',function(){ location.href = "../../../menu.html";});
+            $("#botonSalir").on('click',function(){ location.href = "../../../menu1.html";});
             
         </script>    
     </body>

@@ -47,7 +47,14 @@ function validarAccesoAjax(){
         },
         success:function(json){
             if (json.acceso === "true") {
-                location.href = "menu.html";
+                
+                if(json.usuario==="ADMIN")
+                    location.href = "menu.html";
+                else
+                    location.href = "menu1.html";
+                    console.log("estoy aqui");
+                    $("#mis_proyectos").css("display","none");
+                    console.log("estoy aqui2");                    
             }else{
                 $("#mensajes").html("Credencial invalida");
                 setTimeout('location.reload()', 1500);
@@ -83,14 +90,15 @@ function verificarSesion(programa){
         success:function(json){
             if (json.activo === "false") {
                 if (programa) {
-                    location.href = "../../../index.html";                                    
+                    location.href = "/../index.html";                                    
                 }else{
-                     location.href = "../../../index.html";                    
+                     location.href = "/../index.html";                    
                 }
             }
             $("#snombre_empresa").html(json.nombre_empresa);
-            $("#usuario_usuario").html(json.usuario_usuario);
+            $("#susuario_usuario").html(json.login_usuario);
             $("#mensajes").html(json.mensajes);
+            $("#mis_proyectos").css("display","none");
         },
         error:function(e){
             $("#mensajes").html("ERROR: No se pudo recuperar la sesion.");
@@ -130,4 +138,64 @@ function cerrarSesion(){
         }        
     });     
     
+}
+
+function buscarMisProyecto(){
+    console.log("estoy aca11112");
+    var datosFormulario = $("#formBuscar").serialize();
+
+    $.ajax({
+       type: 'POST',
+       url: 'jsp/buscarNombre.jsp',
+       data: datosFormulario,
+       dataType: 'json',
+        beforeSend: function (objeto) {
+            $("#mensajes").html("Enviando datos al servidor...");
+            $("#contenidoBusqueda").css("display","none");
+        },
+        success: function (json) {
+            //se muestra el mensaje proveniente del servicio
+            $("#mensajes").html(json.mensaje);
+            
+            //se carga en la seccion de contenido el resultado proveido por el 
+            //servisio
+            $("#contenidoBusqueda").html(json.contenido);
+            
+            //se despliega el resultado en pantalla
+            $("#contenidoBusqueda").fadeIn("slow");
+            
+            //evento: se presiona una fila de la tabla
+            $("tbody tr").on("click",function(){
+                
+                //se captura el id que corresponde a la primera columna de cada fila
+                var id = $(this).find("td:first").html();
+                console.log(id);
+                //$("#panelBuscar").html("");
+                
+                //se pone el id en el campo de texto y luego se llama a la funcion
+                //para buscar por id (ezta parte no hace nada) 
+                $("#id_proyecto").val(id);
+                $("#nombre_proyecto").focus();
+                //buscarIdProyecto();
+
+                //se oculta la seccion de buscar
+                //$("#panelBuscar").fadeOut("slow");   
+                
+                //se muestra el panel principal del programa
+                $("#backlog").load("backlog.html");
+                $("#backlog").fadeIn("slow");
+                $("#panelBuscar").fadeOut("slow");                
+            });
+            
+  
+        },
+        error: function (e) {
+            $("#mensajes").html("No se pudo buscar registros")
+        },
+        complete: function (objeto,exito,error) {
+            if (exito === "success") {
+                
+            }
+        }
+    });    
 }

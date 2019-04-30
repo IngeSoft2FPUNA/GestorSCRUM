@@ -86,10 +86,10 @@ public class ProyectoControlador {
                     
                     while(rs.next()){
                         tabla+= "<tr>"
-                                + "<td>"+rs.getString("id_proyecto")+"</td>"
-                                + "<td>"+rs.getString("nombre")+"</td>"
-                                + "<td>"+rs.getString("descripcion")+"</td>"
-                                + "<td>"+rs.getString("duedate")+"</td>"
+                                + "<td><a>"+rs.getString("id_proyecto")+"</a></td>"
+                                + "<td><a>"+rs.getString("nombre")+"</a></td>"
+                                + "<td><a>"+rs.getString("descripcion")+"</a></td>"
+                                + "<td><a>"+rs.getString("duedate")+"</a></td>"
                                 + "</tr>";                        
                     }
                     
