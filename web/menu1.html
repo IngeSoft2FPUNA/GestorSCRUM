@@ -35,13 +35,17 @@
                                </ul>
                         </li>
                     </ul>
+                </div>
                 <div class="collpase navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                    role="button"><span 
-            id="susuario_usuario"></span><span class="caret">                                       
-                                </span></a>
+                            <a href="#" 
+                               class="dropdown-toggle" 
+                               data-toggle="dropdown"
+                               role="button">
+                                <span id="susuario_usuario"></span><span class="caret">                                       
+                                </span>
+                            </a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="index.html">Salir</a></li>
                             </ul>
@@ -51,8 +55,8 @@
             </div>
         </nav>
         
-        <div id="backlog"></div>
-<!--        PANDEL BUSCADOR-->
+        
+<!--        PANEL BUSCADOR-->
         <div id="panelBuscar" class="panel panel-primary">
         <div class="panel-heading centrado">Mis Proyectos</div>
             <div class="panel-body">
@@ -63,14 +67,13 @@
                             <span>Nombre</span>                        
                         </div>
                         <div class="cold-md-9">
-                            <input id="bnombre_proyecto" name="bnombre_proyecto" type="text" class="form-control input-sm" placeholder="Nombre"/>                        
+                            <input id="bnombre_proyecto" name="bnombre_proyecto" type="text" class="form-control " placeholder="Nombre"/>                        
                         </div>
                         <div class="col-md-2">
                             <button id="botonBuscar" type="button" class="btn btn-primary btn-sm" >Buscar</button>                        
                         </div>
                     </div>
                 </form>
-            <br>
             
 <!--        TABLA DE RESULTADOS-->
             <div id="resultado">
@@ -94,6 +97,9 @@
                 </nav>
             </div>
         </div>
+        
+<!--        BACKLOG-->
+        <div id="backlog"></div>        
 
         
 <!--    MENSJADES DEL SISTEMA-->

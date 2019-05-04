@@ -184,7 +184,7 @@ function buscarMisProyecto(){
                 //se muestra el panel principal del programa
                 $("#backlog").load("backlog.html");
                 $("#backlog").fadeIn("slow");
-                $("#panelBuscar").fadeOut("slow");                
+                //$("#panelBuscar").fadeOut("slow");                
             });
             
   
