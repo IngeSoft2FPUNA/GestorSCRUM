@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="../../../css/bootstrap-theme.css" type="text/css"/>
         <link rel="stylesheet" href="../../../css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="../../../css/bootstrap.min.css" type="text/css"/>
+        <link rel="stylesheet" href="../../../css/estilos.css" type="text/css"/>
+
     </head>
     <body>
         <div id="confirmar"></div>
@@ -77,6 +79,24 @@
                         </div>
                         <div class="col-md-11">
                             <input id="password_usuario" name="password_usuario" type="password" class="form-control input-sm" placeholder="Password" onkeyup="this.value=this.value.toUpperCase()">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-11">
+                            <span>Activo</span>
+                        </div>
+                        <div class="col-md-11">
+                            <!-- Default unchecked -->
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="inactivoRadioButton" name="activo_usuario" value="false">
+                              <label class="custom-control-label" for="inactivoRadioButton">Inactivo</label>
+                            </div>
+
+                            <!-- Default checked -->
+                            <div class="custom-control custom-radio">
+                              <input type="radio" class="custom-control-input" id="activoRadioButton" name="activo_usuario" value="true" checked>
+                              <label class="custom-control-label" for="activoRadioButton">Activo</label>
+                            </div>
                         </div>
                     </div>
                 </form>

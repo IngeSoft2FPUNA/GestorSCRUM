@@ -13,7 +13,12 @@
     String correo = request.getParameter("correo_electronico");
     String login_usuario = request.getParameter("nick_usuario");
     String password_usuario = request.getParameter("password_usuario");
+    String activo_usuario = request.getParameter("activo_usuario");
 
+    System.out.println("activo: "+activo_usuario);
+    
+    //se verifica si el estado del usuario a modificar es true o false
+    boolean activo = activo_usuario.equals("true")?true:false;
     
     //se definen variables para el tipo de mensaje y el mensaje
     String tipo = "error";
@@ -27,6 +32,7 @@
     usuario.setEmail(correo);
     usuario.setUsuario(login_usuario);
     usuario.setPassword(password_usuario);
+    usuario.setActivo(activo);
 
     
     //se intenta agregar un nuevo usuario a la bd

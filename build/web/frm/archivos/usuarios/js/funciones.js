@@ -13,7 +13,7 @@ function buscarIdUsuario(){
         },
         success: function(json){
             $("#mensajes").html(json.mensaje);
-           $("#id_usuario").val(json.id_usuario);
+         // $("#id_usuario").val(json.id_usuario);
             $("#nombre_usuario").val(json.nombre_usuario);
             $("#cedula").val(json.cedula);
             $("#correo_electronico").val(json.correo);
@@ -30,7 +30,17 @@ function buscarIdUsuario(){
                 $("#botonAgregar").prop('disabled',true);
                 $("#botonModificar").prop('disabled',false);
                 $("#botonEliminar").prop('disabled',false);
-                //siguienteCampo("#nombre_usuario","#botonAgregar",true);            
+                //siguienteCampo("#nombre_usuario","#botonAgregar",true); 
+                
+                if (json.activo==="TRUE") {
+                    console.log("true");
+                    $("#activoRadioButton").prop('checked',true);
+                    $("#inactivoRadioButton").prop('checked',false);
+                }else{
+                    console.log("false");                    
+                    $("#activoRadioButton").prop('checked',false);
+                    $("#inactivoRadioButton").prop('checked',true);                    
+                }
             }            
         },
         error: function(e){
