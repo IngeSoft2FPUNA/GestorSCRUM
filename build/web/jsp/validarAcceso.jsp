@@ -12,11 +12,13 @@
     
     Usuario usuario = new Usuario(login_usuario, "", 0, "", password_usuario);
     if (UsuarioControlador.validarAcceso(usuario,request)!=null) {
-            acceso = "true";                    
+            acceso = "true";
     }
     
     JSONObject obj = new JSONObject();
     obj.put("acceso",acceso);
+    obj.put("usuario",login_usuario);
+         
     //obj.put("acceso",String.valueOf(acceso));
     out.print(obj);
     out.flush();

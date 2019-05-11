@@ -18,7 +18,7 @@ CREATE TABLE usuarios (
                 correo_electronico VARCHAR NOT NULL,
                 nick_usuario VARCHAR NOT NULL,
                 password VARCHAR NOT NULL,
-                activo BOOLEAN NOT NULL,
+                activo BOOLEAN DEFAULT true NOT NULL,
                 CONSTRAINT usuarios_pk PRIMARY KEY (id_usuario)
 );
 
