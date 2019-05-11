@@ -14,7 +14,7 @@
         <div id="panelBacklog" class="panel panel-primary">
             <!--            PANEL HEADER-->
             <div class="panel-heading centrado">
-                Product Backlog | <span id="nombreProyecto"></span>
+                Sprint Backlog | <span id="nombreProyecto"></span>
             </div>
 
             <!--            PANEL BODY-->
@@ -41,7 +41,7 @@
                             <tr>
                                 <th>US</th>
                                 <th>Nombre</th>
-                                <th>Descripcion</th>
+                                <th>Prioridad</th>
                                 <th>Tiempo Estimado</th>
                                 <th>Tiempo Trabajado</th>
                                 <th>Estado</th>
@@ -106,7 +106,7 @@
 
 
             $("#botonSalirBuscar").on("click", function () {
-                $("#panelBacklog").fadeOut("slow");
+                $("#panelSprintBacklog").fadeOut("slow");
                 $("#panelMisProyectos").fadeIn("slow");
             });
 

@@ -18,7 +18,7 @@ import utiles.Utiles;
  */
 public class ProyectoControlador {
     
-    public static boolean agregar(Proyecto proyecto){
+   public static boolean agregar(Proyecto proyecto){
     
         boolean valor = false;
         
@@ -68,7 +68,7 @@ public class ProyectoControlador {
         
     }   
     
-    public static String buscarNombre(String nombre, int pagina){
+   public static String buscarNombre(String nombre, int pagina){
         int offset = (pagina-1)*Utiles.REGISTRO_PAGINA;
         String valor = "";
         
@@ -86,10 +86,10 @@ public class ProyectoControlador {
                     
                     while(rs.next()){
                         tabla+= "<tr>"
-                                + "<td><a>"+rs.getString("id_proyecto")+"</a></td>"
-                                + "<td><a>"+rs.getString("nombre")+"</a></td>"
-                                + "<td><a>"+rs.getString("descripcion")+"</a></td>"
-                                + "<td><a>"+rs.getString("duedate")+"</a></td>"
+                                + "<td>"+rs.getString("id_proyecto")+"</td>"
+                                + "<td>"+rs.getString("nombre")+"</td>"
+                                + "<td>"+rs.getString("descripcion")+"</td>"
+                                + "<td>"+rs.getString("duedate")+"</td>"
                                 + "</tr>";                        
                     }
                     
@@ -113,7 +113,57 @@ public class ProyectoControlador {
         return valor;
     }
 
-    public static boolean modificar(Proyecto proyecto, String id_proyecto){
+   public static String buscarMisProyectos(int id_usuario){
+       // int offset = (pagina-1)*Utiles.REGISTRO_PAGINA;
+        String valor = "";
+        
+        if (Conexion.conectar()) {
+            
+            try {
+                String sql = "SELECT RU.id_proyecto id_proyecto, "
+                        + "P.NOMBRE nombre_proyecto, "
+                        + "P.DESCRIPCION desc_proyecto, "
+                        + "P.duedate fecha_entrega " +
+                            "FROM roles_usuarios RU JOIN proyectos P ON RU.id_proyecto = P.id_proyecto\n" +
+                            "WHERE RU.id_usuario = " + id_usuario +";";
+                
+                System.out.println("----->" + sql);
+                try(PreparedStatement ps = Conexion.getConn().prepareStatement(sql)) {
+                    ResultSet rs = ps.executeQuery();
+                    String tabla = "";
+                    
+                    while(rs.next()){
+                        tabla+= "<tr>"
+                                + "<td id=\"id_proyecto\">"+rs.getString("id_proyecto")+"</td>"
+                                + "<td>"+rs.getString("nombre_proyecto")+"</td>"
+                                + "<td>"+rs.getString("desc_proyecto")+"</td>"
+                                + "<td>"+rs.getString("fecha_entrega")+"</td>"
+                                + "<td class=\"botonVerBacklog\"> <button id=\"botonVerBacklog\" type=\"button\" class=\"btn btn-primary btn-sm\">Backlog</button></td>"
+                                + "<td> <button id=\"botonVerSprint\" type=\"button\" class=\"btn btn-primary btn-sm centrado\">Sprint</button></td>"
+                                + "</tr>";                        
+                    }
+                    
+                    if (tabla.equals("")) {
+                        tabla = "<tr><td colspan = 2>No existen Registros...</td></tr>";
+                    }
+                    ps.close();
+                    valor = tabla;                    
+                } catch (SQLException e) {
+                    System.out.println("Error: " + e);
+                }
+                Conexion.cerrar();
+            } catch (Exception e) {
+                System.out.println("Error: " + e);
+            }
+        }
+        Conexion.cerrar();
+        
+        System.out.println(valor);
+        System.out.println("estoy aca 2");
+        return valor;
+    }   
+   
+   public static boolean modificar(Proyecto proyecto, String id_proyecto){
         boolean valor = false;
         
         if (Conexion.conectar()) {
@@ -137,9 +187,8 @@ public class ProyectoControlador {
         
         return valor;
     }
-
         
-    public static boolean eliminar(Proyecto proyecto){
+   public static boolean eliminar(Proyecto proyecto){
         boolean valor = false;
         
         if (Conexion.conectar()) {

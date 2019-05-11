@@ -178,7 +178,7 @@ public class UsuarioControlador {
                     if (rs.next()) {
                         HttpSession sesion = request.getSession(true);
                         usuario = new Usuario();
-                        //usuario.setId_usuario(rs.getInt("id_usuario"));
+                        usuario.setId_usuario(rs.getInt("id_usuario"));
                         usuario.setNombre(rs.getString("nombre_apellido"));
                         usuario.setUsuario(rs.getString("nick_usuario"));
                         usuario.setPassword(rs.getString("password"));

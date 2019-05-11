@@ -1,20 +1,40 @@
 package modelos;
 
 public class Usuario {
-	private String usuario;
-	private String nombre;
-	private int cedula;
-	private String email;
-	private String password;
-        private boolean activo;
 
-	public Usuario (String user, String name, int cedula, String email, String password){
-		this.usuario=user;
-		this.nombre=name;
-		this.cedula=cedula;
-		this.email=email;
-		this.password=password;
-	}
+    int id_usuario;
+    private String usuario;
+    private String nombre;
+    private int cedula;
+    private String email;
+    private String password;
+    private boolean activo;
+
+    public Usuario(String user, String name, int cedula, String email, String password) {
+        this.usuario = user;
+        this.nombre = name;
+        this.cedula = cedula;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Usuario(int id_usuario, String usuario, String nombre, int cedula, String email, String password, boolean activo) {
+        this.id_usuario = id_usuario;
+        this.usuario = usuario;
+        this.nombre = nombre;
+        this.cedula = cedula;
+        this.email = email;
+        this.password = password;
+        this.activo = activo;
+    }
+
+    public int getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(int id_usuario) {
+        this.id_usuario = id_usuario;
+    }
 
     public boolean isActivo() {
         return activo;
@@ -24,88 +44,87 @@ public class Usuario {
         this.activo = activo;
     }
 
-        public Usuario() {
-        }
-   	
-	public String encryptpass () {
-		String pass = null;
-		return pass;
-	}
+    public Usuario() {
+    }
 
-	/**
-	 * @return the Usuario
-	 */
-	public String getUsuario() {
-		return usuario;
-	}
+    public String encryptpass() {
+        String pass = null;
+        return pass;
+    }
 
-	/**
-	 * @param Usuario the Usuario to set
-	 */
-	public void setUsuario(String Usuario) {
-		this.usuario = Usuario;
-	}
+    /**
+     * @return the Usuario
+     */
+    public String getUsuario() {
+        return usuario;
+    }
 
-	/**
-	 * @return the nombre
-	 */
-	public String getNombre() {
-		return nombre;
-	}
+    /**
+     * @param Usuario the Usuario to set
+     */
+    public void setUsuario(String Usuario) {
+        this.usuario = Usuario;
+    }
 
-	/**
-	 * @param nombre the nombre to set
-	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
 
-	/**
-	 * @return the cedula
-	 */
-	public int getCedula() {
-		return cedula;
-	}
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	/**
-	 * @param cedula the cedula to set
-	 */
-	public void setCedula(int cedula) {
-		this.cedula = cedula;
-	}
+    /**
+     * @return the cedula
+     */
+    public int getCedula() {
+        return cedula;
+    }
 
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * @param cedula the cedula to set
+     */
+    public void setCedula(int cedula) {
+        this.cedula = cedula;
+    }
 
-	/**
-	 * @param email the email to set
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
 
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	/**
-	 * @param password the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @Override
     public String toString() {
         return "Usuario{" + "usuario=" + usuario + ", nombre=" + nombre + ", cedula=" + cedula + ", email=" + email + ", password=" + password + '}';
     }
-	
-	
+
 }
