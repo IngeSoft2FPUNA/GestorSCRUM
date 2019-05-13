@@ -7,6 +7,22 @@
     margin: auto;
     margin-top: 5%;
 }
+
+#panelMisProyectos{
+    width: 90%; /* comentario */
+    margin: auto;
+}
+
+#panelBacklog{
+    width: 90%; /* comentario */
+    margin: auto;
+}
+
+#panelSprintBacklog{
+    width: 90%; /* comentario */
+    margin: auto;
+}
+
 #mensajes{
     position: fixed;
     bottom: 0;

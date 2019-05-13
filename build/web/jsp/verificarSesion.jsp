@@ -13,7 +13,7 @@
     
     Usuario usuarioLogueado = (Usuario)sesion.getAttribute("usuarioLogueado");
     if (usuarioLogueado!=null) {
-        //id_usuario = usuarioLogueado.getId_usuario();
+        id_usuario = usuarioLogueado.getId_usuario();
         login_usuario = usuarioLogueado.getUsuario();
         nombre_usuario = usuarioLogueado.getNombre();
         

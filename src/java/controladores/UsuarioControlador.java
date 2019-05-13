@@ -24,7 +24,8 @@ public class UsuarioControlador {
         String cadena_activo = usuario.isActivo()?"TRUE":"FALSE";
         
         if (Conexion.conectar()) {
-            String sql = "INSERT INTO usuarios(nombre_apellido, cedula, correo_electronico, nick_usuario, password, activo)"
+            String sql = "INSERT INTO usuarios(nombre_apellido, cedula, "
+                    + "correo_electronico, nick_usuario, password, activo)"
                     + "values('"+usuario.getNombre()+"'"
                     +","+usuario.getCedula()
                     +",'"+usuario.getEmail()+"'"
@@ -77,8 +78,10 @@ public class UsuarioControlador {
         if (Conexion.conectar()) {
             
             try {
-                String sql = "SELECT * FROM usuarios WHERE activo = 'TRUE' AND UPPER(nombre_apellido) LIKE '%"
-                        +nombre.toUpperCase()+"%'" + "ORDER BY id_usuario offset " + offset + "LIMIT "
+                String sql = "SELECT * FROM usuarios WHERE activo = 'TRUE' "
+                        + "AND UPPER(nombre_apellido) LIKE '%"
+                        +nombre.toUpperCase()+"%'" + "ORDER BY id_usuario offset " 
+                        + offset + "LIMIT "
                         + Utiles.REGISTRO_PAGINA;
                 System.out.println("----->" + sql);
                 try(PreparedStatement ps = Conexion.getConn().prepareStatement(sql)) {
@@ -163,10 +166,12 @@ public class UsuarioControlador {
     public static Usuario validarAcceso(Usuario usuario, HttpServletRequest request){
       System.out.println("login:"+usuario.getUsuario());
       System.out.println("password:"+usuario.getPassword());
-      System.out.println("password md5:"+Utiles.md5(Utiles.quitarGuiones(usuario.getPassword())));
+      System.out.println("password md5:"
+              +Utiles.md5(Utiles.quitarGuiones(usuario.getPassword())));
         if (Conexion.conectar()) {
             try {
-                String sql = "SELECT * FROM usuarios WHERE nick_usuario = ? AND password = ? AND activo = 'TRUE'";
+                String sql = "SELECT * FROM usuarios WHERE nick_usuario = ? "
+                        + "AND password = ? AND activo = 'TRUE'";
                 
                 try(PreparedStatement ps = Conexion.getConn().prepareStatement(sql)) {
                     ps.setString(1, Utiles.quitarGuiones(usuario.getUsuario()));
@@ -201,4 +206,4 @@ public class UsuarioControlador {
     }
     
     /*FALTAN 5 METODOS MAS*/    
-}//fin de la clase
+}

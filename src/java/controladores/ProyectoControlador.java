@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controladores;
 
 import java.sql.PreparedStatement;
@@ -12,10 +7,6 @@ import modelos.Proyecto;
 import utiles.Conexion;
 import utiles.Utiles;
 
-/**
- *
- * @author user
- */
 public class ProyectoControlador {
     
    public static boolean agregar(Proyecto proyecto){
@@ -23,7 +14,8 @@ public class ProyectoControlador {
         boolean valor = false;
         
         if(Conexion.conectar()){
-            String sql = "INSERT INTO proyectos (id_proyecto,nombre, duedate, descripcion) VALUES ("
+            String sql = "INSERT INTO proyectos (id_proyecto,nombre, duedate,"
+                    + " descripcion) VALUES ("
                     + "'"+proyecto.getId_proyecto()+"',"
                     + "'"+proyecto.getNombre_proyecto()+"',"
                     + "'"+proyecto.getDuedate()+"',"
@@ -45,7 +37,8 @@ public class ProyectoControlador {
 
    public static Proyecto buscarId(Proyecto proyecto){
         if (Conexion.conectar()) {
-            String sql = "SELECT * FROM proyectos WHERE UPPER(id_proyecto) LIKE '%"+proyecto.getId_proyecto()+"%'";
+            String sql = "SELECT * FROM proyectos WHERE UPPER(id_proyecto)"
+                    + " LIKE '%"+proyecto.getId_proyecto()+"%'";
             
             System.out.println("----->" + sql);
             
@@ -75,8 +68,10 @@ public class ProyectoControlador {
         if (Conexion.conectar()) {
             
             try {
-                String sql = "SELECT * FROM proyectos WHERE activo = 'TRUE' AND UPPER(nombre) LIKE '%"
-                        +nombre.toUpperCase()+"%'" + "ORDER BY id_proyecto offset " + offset + "LIMIT "
+                String sql = "SELECT * FROM proyectos WHERE activo = 'TRUE'"
+                        + " AND UPPER(nombre) LIKE '%"
+                        +nombre.toUpperCase()+"%'" + "ORDER BY id_proyecto offset " 
+                        + offset + "LIMIT "
                         + Utiles.REGISTRO_PAGINA;
                 
                 System.out.println("----->" + sql);
@@ -124,7 +119,8 @@ public class ProyectoControlador {
                         + "P.NOMBRE nombre_proyecto, "
                         + "P.DESCRIPCION desc_proyecto, "
                         + "P.duedate fecha_entrega " +
-                            "FROM roles_usuarios RU JOIN proyectos P ON RU.id_proyecto = P.id_proyecto\n" +
+                            "FROM roles_usuarios RU JOIN proyectos P" +
+                            " ON RU.id_proyecto = P.id_proyecto\n" +
                             "WHERE RU.id_usuario = " + id_usuario +";";
                 
                 System.out.println("----->" + sql);
@@ -193,7 +189,8 @@ public class ProyectoControlador {
         
         if (Conexion.conectar()) {
             
-            String sql = "UPDATE proyectos SET activo = 'false' WHERE id_proyecto LIKE '%"+proyecto.getId_proyecto()+"%'";
+            String sql = "UPDATE proyectos SET activo = 'false' "
+                    + "WHERE id_proyecto LIKE '%"+proyecto.getId_proyecto()+"%'";
             System.out.println(sql);
             try {
                 Conexion.getSt().executeUpdate(sql);
