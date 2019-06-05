@@ -25,11 +25,18 @@
                         <div class="col-md-1">
                             <span>Nombre</span>                        
                         </div>
-                        <div class="cold-md-9">
+                        <div class="col-md-9">
                             <input id="bnombre_proyecto" name="bnombre_proyecto" type="text" class="form-control " placeholder="Nombre"/>                        
                         </div>
-                        <div class="col-md-2">
-                            <button id="botonBuscar" type="button" class="btn btn-primary btn-sm" >Buscar</button>                        
+                        <div class="col-md-1">
+                            <button id="botonBuscar" type="button" class="btn btn-primary btn-sm" >
+                              <span class='glyphicon glyphicon-search'></span>
+                            </button>                        
+                        </div>
+                        <div class="col-md-1">
+                            <button id="botonAgregarUS" type="button" class="btn btn-success btn-sm" onclick="agregarUS(this.value)">
+                              <span class='glyphicon glyphicon-plus'></span>
+                            </button>                        
                         </div>
                     </div>
                 </form>
@@ -45,10 +52,11 @@
                                 <th>Tiempo Estimado</th>
                                 <th>Tiempo Trabajado</th>
                                 <th>Estado</th>
-                                <th>Responsable</th>
+                                <th>Prioridad</th>
+                                <th colspan="2">Accion</th>
                             </tr>
                         </thead>
-                        <tbody id="contenidoBusqueda">                            
+                        <tbody id="listaUSBacklog">                            
                         </tbody>
                     </table>
                     <nav>
@@ -62,12 +70,12 @@
 
             <!--            PANEL FOOTER-->
             <div class="panel-footer centrado">
-                <button id="botonSalirBuscar" type="button" class="btn btn-primary btn-sm">Salir</button>
+                <button id="botonSalirBacklog" type="button" class="btn btn-primary btn-sm">Salir</button>
             </div>
         </div> 
 
         <!--    MENSJADES DEL SISTEMA-->
-        <div id="mensajes" class="well-sm centrado">Mensajes del Sistema</div>
+        <div id="mensajes" class="well well-sm centrado">Mensajes del Sistema</div>
 
 
         <script src = "js/jquery.min.js" type="text/javascript"></script>
@@ -76,7 +84,7 @@
 
         <script>
             verificarSesion();
-           // buscarUserStories();
+            //buscarUSBacklog();
 
             $("#bnombre_proyecto").focus();
             //siguienteCampo("#bnombre_proyecto","#botonBuscar",false);
@@ -104,8 +112,7 @@
                 buscarMisProyecto();
             });
 
-
-            $("#botonSalirBuscar").on("click", function () {
+            $("#botonSalirBacklog").on("click", function () {
                 $("#panelBacklog").fadeOut("slow");
                 $("#panelMisProyectos").fadeIn("slow");
             });

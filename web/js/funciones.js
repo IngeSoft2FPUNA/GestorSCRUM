@@ -1,8 +1,8 @@
 //variables globales
 
 var idUsuario = 0;
-var vnickUsuario = "";
-var proyectoSeleccionado = "";
+var nickUsuario = "";
+var proyectoActual = "";
 
 function siguienteCampo(actual, siguiente, preventDefault) {
     $(actual).keydown(function (event) {
@@ -157,7 +157,7 @@ function buscarMisProyecto() {
     console.log("funcion buscar Mis Proyectos");
     console.log(idUsuario);
 
-    $.ajax({//REEMPLAZAR ESTA PARTE POR UNA LLAMADA A JSP QUE DEVUELVA LOS PROYECTOS PARA UN USUARIO
+    $.ajax({
         type: 'POST',
         url: 'jsp/misProyectos.jsp',
         data: {id_usuario: idUsuario},
@@ -178,51 +178,6 @@ function buscarMisProyecto() {
             //se despliega el resultado en pantalla
             $("#contenidoBusqueda").fadeIn("slow");
 
-            //evento: se presiona una fila de la tabla
-            $("#botonVerBacklog").on("click", function () {
-
-                //se captura el id que corresponde a la primera columna de cada fila
-                var id = $(this).find("tbody tr td:first").html();
-                sessionStorage.setItem("proyectoActual", $(this).find("tbody tr td:first")) ;
-                proyectoActual = document.getElementById("id_proyecto").innerHTML;
-                
-                console.log("id proyecto:"+proyectoActual);
-                //$("#panelBuscar").html("");
-
-                //se pone el id en el campo de texto y luego se llama a la funcion
-                //para buscar por id (ezta parte no hace nada) 
-                $("#id_proyecto").val(id);
-                $("#nombre_proyecto").focus();
-                //buscarIdProyecto();
-
-                //se muestra el panel principal del programa
-                $("#panelBacklog").load("backlog.html");
-                $("#panelBacklog").fadeIn("slow");
-                $("#panelMisProyectos").fadeOut("slow");
-            });
-
-            $("#botonVerSprint").on("click", function () {
-
-                //se captura el id que corresponde a la primera columna de cada fila
-                var id = $(this).find("tbody tr td:first").html();
-               sessionStorage.setItem("proyectoActual", $(this).find("tbody tr td:first"));
-                proyectoActual = sessionStorage.getItem("proyectoActual"); 
-                console.log("id proyecto:"+proyectoActual);
-                //$("#panelBuscar").html("");
-
-                //se pone el id en el campo de texto y luego se llama a la funcion
-                //para buscar por id (ezta parte no hace nada) 
-                $("#id_proyecto").val(id);
-                $("#nombre_proyecto").focus();
-                //buscarIdProyecto();
-
-                //se muestra el panel principal del programa
-                $("#panelSprintBacklog").load("sprintBacklog.html");
-                $("#panelSprintBacklog").fadeIn("slow");
-                $("#panelMisProyectos").fadeOut("slow");
-            });
-
-
         },
         error: function (e) {
             $("#mensajes").html("No se pudo buscar registros");
@@ -241,21 +196,129 @@ function setDatosSesion(id_usuario, login_usuario) {
     nickUsuario = login_usuario;
 }
 
-function buscarUSBacklog() {
+function setDatosProyecto(id_proyecto){
+    console.log("funcion set datos proyecto");
+    proyectoActual = id_proyecto;
+    
+}
 
-    console.log("funcion buscar user stories");
-    $("#nombreProyecto").html(proyectoActual);
+function buscarUSBacklog(id_proyecto) {
+
+    console.log("funcion buscar user stories backlog");
 
     //aca se va a hacer la llamada ajax para recuperar la lista de US
     //del proyectoActual WHERE ID_BACKLOG=PRODUCT
 
+    $.ajax({
+        type: 'POST',
+        url: 'jsp/buscarUSBacklog.jsp',
+        data: {id_usuario: idUsuario, id_proyecto: id_proyecto},
+        dataType: 'json',
+        beforeSend: function (objeto) {
+            $("#mensajes").html("Enviando datos al servidor...");
+            //$("#contenidoBusqueda").css("display", "none");
+            //se muestra el panel principal del programa
+            $("#panelMisProyectos").fadeOut("slow");            
+            $("#panelBacklog").load("backlog.html");
+            $("#panelBacklog").fadeIn("slow");
+        },
+        success: function (json) {
+
+            //se muestra el mensaje proveniente del servicio
+            $("#mensajesBacklog").html(json.mensaje);
+            
+            //se muestra el nombre del proyecto en el encabezados
+            $("#nombreProyecto").html(id_proyecto);
+            $("#botonAgregarUS").val(id_proyecto);
+
+            //se carga en la seccion de contenido el resultado proveido por el 
+            //servisio
+            $("#listaUSBacklog").html(json.contenido);
+
+            //se despliega el resultado en pantalla
+            $("#listaUSBacklog").fadeIn("slow");
+
+        },
+        error: function (e) {
+            $("#mensajes").html("No se pudo buscar registros");
+        },
+        complete: function (objeto, exito, error) {
+            if (exito === "success") {
+
+            }
+        }
+    });
+
 }
-function buscarUSSprint() {
 
-    console.log("funcion buscar user stories");
-    $("#nombreProyecto").html(proyectoActual);
+function buscarUSSprint(id_proyecto) {
 
+    console.log("funcion buscar user stories sprint");
+    
+    $.ajax({
+        type: 'GET',
+        url: 'jsp/buscarUSSprint.jsp',
+        data: {id_usuario: idUsuario, id_proyecto: id_proyecto},
+        dataType: 'json',
+        beforeSend: function (objeto) {
+            $("#mensajes").html("Enviando datos al servidor...");
+            //$("#contenidoBusqueda").css("display", "none");
+            $("#panelMisProyectos").fadeOut("slow");            
+            $("#panelSprintBacklog").load("sprintBacklog.html");
+            $("#panelSprintBacklog").fadeIn("slow");            
+        },
+        success: function (json) {
+
+            //se muestra el mensaje proveniente del servicio
+            $("#mensajes").html(json.mensaje);
+
+            //se muestra el nombre del proyecto en el encabezados
+            $("#nombreProyectoSprint").html(id_proyecto);
+
+            //se carga en la seccion de contenido el resultado proveido por el 
+            //servisio
+            $("#listaUSSprint").html(json.contenido);
+
+            //se despliega el resultado en pantalla
+            $("#listaUSSprint").fadeIn("slow");
+
+        },
+        error: function (e) {
+            $("#mensajes").html("No se pudo buscar registros");
+        },
+        complete: function (objeto, exito, error) {
+            if (exito === "success") {
+
+            }
+        }
+    });
     //aca se va a hacer la llamada ajax para recuperar la lista de US
     //del proyectoActual WHERE ID_BACKLOG=SPRINT
 
+}
+
+function editarLinea(data){
+    console.log("funcion editar linea");
+    
+}
+
+function eliminarLinea(data){
+    console.log("funcion eliminar linea");
+    
+}
+
+function agregarUS(id_proyecto){
+    console.log("funcion agregar US");
+   // var id_proyecto = document.getElementById("nombreProyecto").innerHTML;
+    
+    //var datosFormulario = $("formAgregarUS").serialize();
+       
+    $("#panelBacklog").fadeOut("slow");
+    $("#panelAgregarUS").load("agregarUS.html");
+    $("#panelAgregarUS").fadeIn("slow");
+    $("#nombreProyectoAgregarUS").html(id_proyecto);
+    $("#nombre_us").val("holalaaa");
+    alert(id_proyecto);
+    console.log(id_proyecto);
+    
 }

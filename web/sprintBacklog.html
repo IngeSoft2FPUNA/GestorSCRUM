@@ -11,10 +11,10 @@
     </head>
     <body>
         <!--    PRODUCT BACKLOG-->
-        <div id="panelBacklog" class="panel panel-primary">
+        <div id="panelSprintBacklog" class="panel panel-primary">
             <!--            PANEL HEADER-->
             <div class="panel-heading centrado">
-                Sprint Backlog | <span id="nombreProyecto"></span>
+                Sprint Backlog | <span id="nombreProyectoSprint"></span>
             </div>
 
             <!--            PANEL BODY-->
@@ -23,13 +23,21 @@
                     <input type="hidden" id="bpagina" name="bpagina" value="1"/>
                     <div class="row">
                         <div class="col-md-1">
-                            <span>Nombre</span>                        
+                            <span>Fecha Inicio</span>                        
                         </div>
-                        <div class="cold-md-9">
-                            <input id="bnombre_proyecto" name="bnombre_proyecto" type="text" class="form-control " placeholder="Nombre"/>                        
+                        <div class="col-md-4">
+                            <input id="bnombre_proyecto" name="bnombre_proyecto" type="text" class="form-control " placeholder="Nombre" readonly/>                        
+                        </div>
+                        <div class="col-md-1">
+                            <span>Fecha Fin</span>                        
+                        </div>
+                        <div class="col-md-4">
+                            <input id="bnombre_proyecto" name="bnombre_proyecto" type="text" class="form-control " placeholder="Nombre" readonly/>                        
                         </div>
                         <div class="col-md-2">
-                            <button id="botonBuscar" type="button" class="btn btn-primary btn-sm" >Buscar</button>                        
+                            <button id="botonBuscar" type="button" class="btn btn-primary btn-sm" >
+                                Finalizar Sprint                                
+                            </button>                        
                         </div>
                     </div>
                 </form>
@@ -46,9 +54,10 @@
                                 <th>Tiempo Trabajado</th>
                                 <th>Estado</th>
                                 <th>Responsable</th>
+                                <th colspan="2">Accion</th>
                             </tr>
                         </thead>
-                        <tbody id="contenidoBusqueda">                            
+                        <tbody id="listaUSSprint">                            
                         </tbody>
                     </table>
                     <nav>
@@ -62,12 +71,12 @@
 
             <!--            PANEL FOOTER-->
             <div class="panel-footer centrado">
-                <button id="botonSalirBuscar" type="button" class="btn btn-primary btn-sm">Salir</button>
+                <button id="botonSalirSprintBacklog" type="button" class="btn btn-primary btn-sm">Salir</button>
             </div>
         </div> 
 
         <!--    MENSJADES DEL SISTEMA-->
-        <div id="mensajes" class="well-sm centrado">Mensajes del Sistema</div>
+        <div id="mensajesBacklog" class="well-sm centrado">Mensajes del Sistema</div>
 
 
         <script src = "js/jquery.min.js" type="text/javascript"></script>
@@ -76,7 +85,7 @@
 
         <script>
             verificarSesion();
-           // buscarUserStories();
+           // buscarUSSprint();
 
             $("#bnombre_proyecto").focus();
             //siguienteCampo("#bnombre_proyecto","#botonBuscar",false);
@@ -104,8 +113,7 @@
                 buscarMisProyecto();
             });
 
-
-            $("#botonSalirBuscar").on("click", function () {
+            $("#botonSalirSprintBacklog").on("click", function () {
                 $("#panelSprintBacklog").fadeOut("slow");
                 $("#panelMisProyectos").fadeIn("slow");
             });

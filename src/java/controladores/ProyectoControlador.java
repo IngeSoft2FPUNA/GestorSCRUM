@@ -118,10 +118,12 @@ public class ProyectoControlador {
                 String sql = "SELECT RU.id_proyecto id_proyecto, "
                         + "P.NOMBRE nombre_proyecto, "
                         + "P.DESCRIPCION desc_proyecto, "
-                        + "P.duedate fecha_entrega " +
-                            "FROM roles_usuarios RU JOIN proyectos P" +
-                            " ON RU.id_proyecto = P.id_proyecto\n" +
-                            "WHERE RU.id_usuario = " + id_usuario +";";
+                        + "P.duedate fecha_entrega, " 
+                        + "R.nombre rol " 
+                        + "FROM roles_usuarios RU "
+                        + "JOIN proyectos P ON RU.id_proyecto = P.id_proyecto\n" 
+                        + "JOIN roles R ON RU.id_rol = R.id_rol\n" 
+                        + "WHERE RU.id_usuario = " + id_usuario +";";
                 
                 System.out.println("----->" + sql);
                 try(PreparedStatement ps = Conexion.getConn().prepareStatement(sql)) {
@@ -130,12 +132,13 @@ public class ProyectoControlador {
                     
                     while(rs.next()){
                         tabla+= "<tr>"
-                                + "<td id=\"id_proyecto\">"+rs.getString("id_proyecto")+"</td>"
+                                + "<td>"+rs.getString("id_proyecto")+"</td>"
                                 + "<td>"+rs.getString("nombre_proyecto")+"</td>"
                                 + "<td>"+rs.getString("desc_proyecto")+"</td>"
                                 + "<td>"+rs.getString("fecha_entrega")+"</td>"
-                                + "<td class=\"botonVerBacklog\"> <button id=\"botonVerBacklog\" type=\"button\" class=\"btn btn-primary btn-sm\">Backlog</button></td>"
-                                + "<td> <button id=\"botonVerSprint\" type=\"button\" class=\"btn btn-primary btn-sm centrado\">Sprint</button></td>"
+                                + "<td>"+rs.getString("rol")+"</td>"
+                                + "<td> <button onclick=buscarUSBacklog(\""+rs.getString("id_proyecto")+"\") class=\"btn btn-primary btn-sm\">Ver Backlog</button></td>"
+                                + "<td> <button onclick=buscarUSSprint(\""+rs.getString("id_proyecto")+"\")  class=\"btn btn-primary btn-sm \">Ver Sprint</button></td>"
                                 + "</tr>";                        
                     }
                     

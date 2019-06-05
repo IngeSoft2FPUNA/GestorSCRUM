@@ -23,6 +23,11 @@
     margin: auto;
 }
 
+#panelAgregarUS{
+    width: 90%; /* comentario */
+    margin: auto;
+}
+
 #mensajes{
     position: fixed;
     bottom: 0;
