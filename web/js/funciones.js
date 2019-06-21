@@ -107,9 +107,7 @@ function verificarSesion(programa) {
             }
             $("#snombre_empresa").html(json.nombre_empresa);
             $("#susuario_usuario").html(json.login_usuario);
-            $("#id_usuario").html(json.id_usuario);
             $("#mensajes").html(json.mensajes);
-            $("#mis_proyectos").css("display", "none");
             setDatosSesion(json.id_usuario, json.login_usuario);
 
         },

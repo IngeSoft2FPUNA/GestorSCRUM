@@ -3,6 +3,7 @@ package controladores;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import modelos.UserStory;
 import utiles.Conexion;
 import utiles.Utiles;
@@ -14,14 +15,26 @@ public class UserstoryControlador {
         boolean valor = false;
 
         if (Conexion.conectar()) {
-            String sql = "INSERT INTO userstories (id_proyecto,nombre, duedate,"
-                    + " descripcion) VALUES ("
+            String sql = "INSERT INTO userstories (id_proyecto,"
+                    + "id_us,"
+                    + "nombre,"
+                    + "descripcion,"
+                    + "tiempo_estimado,"
+                    + "tiempo_trabajado,"
+                    + "id_estados,"
+                    + "id_estados_backlog,"
+                    + "id_prio,"
+                    + "id_responsable) VALUES ("
                     + "'" + userStory.getId_proyecto() + "',"
                     + "'" + userStory.getId_us() + "',"
                     + "'" + userStory.getNombre() + "',"
                     + "'" + userStory.getDescripcion() + "',"
                     + "'" + userStory.getTiempo_estimado() + "',"
-                    + "'" + userStory.getTiempo_trabajado() + "')";
+                    + "'" + userStory.getTiempo_trabajado()+ "',"
+                    + "'" + userStory.getId_estados()+ "',"
+                    + "'" + userStory.getId_estados_backlog()+ "',"
+                    + "'" + userStory.getId_prio()+ "',"
+                    + "'" + userStory.getId_responsable()+ "')";
 
             System.out.println(sql);
 
@@ -32,6 +45,7 @@ public class UserstoryControlador {
                 System.err.println("Error :" + e.getMessage());
             }
         }
+        Conexion.cerrar();
 
         return valor;
 
@@ -60,6 +74,49 @@ public class UserstoryControlador {
                 System.err.println("Error :" + ex);
             }
         }
+        Conexion.cerrar();
+        return userStory;
+
+    }
+   
+    public static UserStory getUS(String id_us, String id_proyecto) {
+        
+        UserStory userStory = new UserStory();
+        
+        if (Conexion.conectar()) {
+            String sql = "SELECT * FROM userstories "
+                    + "WHERE UPPER(id_proyecto) LIKE '%" + id_proyecto + "%'"
+                    + "AND UPPER(id_us) LIKE '%" + id_us + "%'";
+
+            System.out.println("----->" + sql);
+
+            try {
+                ResultSet rs = Conexion.getSt().executeQuery(sql);
+                if (rs.next()) {
+                        userStory = new UserStory(rs.getString("id_proyecto"),
+                                rs.getString("id_us") , 
+                                rs.getString("nombre"), 
+                                rs.getString("descripcion"), 
+                                rs.getInt("tiempo_estimado"), 
+                                rs.getInt("tiempo_trabajado"), 
+                                rs.getInt("id_estados"),
+                                rs.getInt("id_estados_backlog"),
+                                rs.getInt("id_prio"),                        
+                                rs.getInt("id_responsable")
+                        
+                        );
+                } else {
+                    userStory.setId_proyecto("");
+                    userStory.setNombre("");
+                    userStory.setId_us("");
+
+                }
+            } catch (SQLException ex) {
+                System.err.println("Error :" + ex);
+            }
+        }
+        Conexion.cerrar();
+        System.out.println("US: "+ userStory);
         return userStory;
 
     }
@@ -102,8 +159,7 @@ public class UserstoryControlador {
                     valor = tabla;
                 } catch (SQLException e) {
                     System.out.println("Error: " + e);
-                }
-                Conexion.cerrar();
+                }                
             } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
@@ -115,18 +171,21 @@ public class UserstoryControlador {
         return valor;
     }
 
-    public static boolean modificar(UserStory userStory, String id_proyecto) {
+    public static boolean modificar(UserStory userStory) {
         boolean valor = false;
 
         if (Conexion.conectar()) {
 
-            String sql = "UPDATE userstories SET "
-                    + "id_proyecto = '" + userStory.getId_proyecto() + "', "
-                    + "id_us = '" + userStory.getId_us() + "', "
+            String sql = "UPDATE userstories SET "                  
                     + "nombre = '" + userStory.getNombre() + "', "
                     + "descripcion = '" + userStory.getDescripcion() + "', "
-                    + "tiempo_estimado = " + userStory.getTiempo_estimado() + "' "
-                    + "WHERE UPPER(id_proyecto) LIKE '%" + id_proyecto + "%' "
+                    + "tiempo_estimado = " + userStory.getTiempo_estimado() + ","
+                    + "tiempo_trabajado = " + userStory.getTiempo_trabajado()+ ","
+                    + "id_prio = " + userStory.getId_prio()+ ","
+                    + "id_estados_backlog = " + userStory.getId_estados_backlog()+ ","
+                    + "id_estados = " + userStory.getId_estados() + ","
+                    + "id_responsable = " + userStory.getId_responsable()
+                    + "WHERE UPPER(id_proyecto) LIKE '%" + userStory.getId_proyecto() + "%' "
                     + "AND UPPER (id_us) LIKE '%" + userStory.getId_us() + "%' ";
 
             System.out.println(sql);
@@ -138,7 +197,7 @@ public class UserstoryControlador {
                 System.out.println("Error: " + e);
             }
         }
-
+        Conexion.cerrar();
         return valor;
     }
 
@@ -147,11 +206,10 @@ public class UserstoryControlador {
 
         if (Conexion.conectar()) {
 
-            String sql = "UPDATE userstories SET estados = "
-                    + "(SELECT id_estado FROM estados "
-                    + "WHERE UPPER(descripcion) LIKE '%ELIMINADO%') "
-                    + "WHERE id_proyecto LIKE '%" + userStory.getId_proyecto() + "% '"
-                    + "AND id_us LIKE '%" + userStory.getId_us() + "%'";
+            String sql = "UPDATE userstories "
+                    + "SET id_estados = 6 "
+                    + "WHERE UPPER(id_proyecto) LIKE '%" + userStory.getId_proyecto() + "%' "
+                    + "AND UPPER(id_us) LIKE '%" + userStory.getId_us() + "%'";
             System.out.println(sql);
             try {
                 Conexion.getSt().executeUpdate(sql);
@@ -160,13 +218,15 @@ public class UserstoryControlador {
                 System.out.println("Error: " + e);
             }
         }
+        Conexion.cerrar();
         return valor;
     }
 
-    public static String buscarUSBacklog(String id_usuario, String id_proyecto) {
+    public static ArrayList<UserStory> buscarUSBacklog(String id_proyecto) {
         //int offset = (pagina - 1) * Utiles.REGISTRO_PAGINA;
         String valor = "";
-
+        ArrayList<UserStory> listaUS = new ArrayList<UserStory>();
+        UserStory userStoryTemp = new UserStory();
         if (Conexion.conectar()) {
 
             try {
@@ -175,14 +235,18 @@ public class UserstoryControlador {
                         + "US.descripcion AS descripcion, "
                         + "US.tiempo_estimado AS tiempo_estimado, "
                         + "US.tiempo_trabajado AS tiempo_trabajado, "
+                        + "US.id_estados AS id_estados, "
+                        + "US.id_estados_backlog AS id_estados_backlog, "
+                        + "US.id_responsable AS id_responsable, "                        
+                        + "US.id_prio AS id_prio, "
                         + "E.descripcion AS estado, "
                         + "P.descripcion AS prioridad "
                         + "FROM userstories US "
                         + "JOIN prioridades P on US.id_prio = P.id_prio "
                         + "JOIN estados E on US.id_estados_backlog = E.id_estados "
-                        + "WHERE UPPER(US.id_proyecto) LIKE '%"
-                        + id_proyecto
-                        + "%'ORDER BY id_us ";
+                        + "WHERE UPPER(US.id_proyecto) LIKE '%" + id_proyecto + "%'"
+                        + "AND US.id_estados != 6 "
+                        + "ORDER BY US.id_prio ";
 
                 System.out.println("----->" + sql);
                 try (PreparedStatement ps = Conexion.getConn().prepareStatement(sql)) {
@@ -190,6 +254,21 @@ public class UserstoryControlador {
                     String tabla = "";
 
                     while (rs.next()) {
+                        userStoryTemp = new UserStory("",
+                                rs.getString("id_us") , 
+                                rs.getString("nombre"), 
+                                rs.getString("descripcion"), 
+                                rs.getInt("tiempo_estimado"), 
+                                rs.getInt("tiempo_trabajado"), 
+                                rs.getInt("id_estados"),
+                                rs.getInt("id_estados_backlog"),
+                                rs.getInt("id_prio"),                        
+                                rs.getInt("id_responsable")
+                        
+                        );
+
+                        listaUS.add(userStoryTemp);
+                        
                         tabla += "<tr>"
                                 + "<td>" + rs.getString("id_us") + "</td>"
                                 + "<td>" + rs.getString("nombre") + "</td>"
@@ -218,8 +297,7 @@ public class UserstoryControlador {
                     valor = tabla;
                 } catch (SQLException e) {
                     System.out.println("Error: " + e);
-                }
-                Conexion.cerrar();
+                }               
             } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
@@ -227,30 +305,35 @@ public class UserstoryControlador {
         Conexion.cerrar();
 
         System.out.println(valor);
-        System.out.println("estoy aca 2");
-        return valor;
+        return listaUS;
     }
 
-    public static String buscarUSSprint(String id_usuario, String id_proyecto) {
+    public static ArrayList<UserStory> buscarUSSprint(String id_proyecto) {
         //int offset = (pagina - 1) * Utiles.REGISTRO_PAGINA;
         String valor = "";
-
+        ArrayList<UserStory> listaUS = new ArrayList<UserStory>();
+        UserStory userStoryTemp = new UserStory();
+        
         if (Conexion.conectar()) {
 
             try {
                 String sql = "SELECT US.id_us AS id_us,"
                         + "US.nombre AS nombre, "
+                        + "US.descripcion AS descripcion, "
                         + "P.descripcion AS prioridad, "
                         + "US.tiempo_estimado AS tiempo_estimado, "
                         + "US.tiempo_trabajado AS tiempo_trabajado, "
-                        + "E.descripcion AS estado, "
-                        + "U.nombre_apellido AS responsable "
+                        + "US.id_estados AS id_estados, "
+                        + "US.id_estados_backlog AS id_estados_backlog, "
+                        + "US.id_responsable AS id_responsable, "
+                        + "US.id_prio AS id_prio, "
+                        + "E.descripcion AS estado "
                         + "FROM userstories US "
                         + "JOIN prioridades P on US.id_prio = P.id_prio "
                         + "JOIN estados E on US.id_estados = E.id_estados "
-                        + "JOIN usuarios U on US.id_responsable = U.id_usuario "
                         + "WHERE UPPER(US.id_proyecto) LIKE '%"
                         + id_proyecto + "%' "
+                        + "AND US.id_estados != 6 "
                         + "AND US.id_estados_backlog = 4"
                         + " ORDER BY id_us ";
 
@@ -258,8 +341,21 @@ public class UserstoryControlador {
                 try (PreparedStatement ps = Conexion.getConn().prepareStatement(sql)) {
                     ResultSet rs = ps.executeQuery();
                     String tabla = "";
-
+                    
                     while (rs.next()) {
+                        userStoryTemp = new UserStory("",
+                                rs.getString("id_us") , 
+                                rs.getString("nombre"), 
+                                rs.getString("descripcion"), 
+                                rs.getInt("tiempo_estimado"), 
+                                rs.getInt("tiempo_trabajado"), 
+                                rs.getInt("id_estados"),
+                                rs.getInt("id_estados_backlog"),
+                                rs.getInt("id_prio"),                        
+                                rs.getInt("id_responsable"));     
+                                                
+                        listaUS.add(userStoryTemp);
+                        
                         tabla += "<tr>"
                                 + "<td>" + rs.getString("id_us") + "</td>"
                                 + "<td>" + rs.getString("nombre") + "</td>"
@@ -267,7 +363,6 @@ public class UserstoryControlador {
                                 + "<td>" + rs.getInt("tiempo_estimado") + "</td>"
                                 + "<td>" + rs.getInt("tiempo_trabajado") + "</td>"
                                 + "<td>" + rs.getString("estado") + "</td>"
-                                + "<td>"+ rs.getString("responsable") +"</td>"
                                 + "<td>"
                                 + "<button onclick='editarLinea(\"" + rs.getString("id_us") + "\")' class='btn btn-warning btn-sm'>"
                                 + "<span class='glyphicon glyphicon-pencil'></span>"
@@ -288,17 +383,15 @@ public class UserstoryControlador {
                     valor = tabla;
                 } catch (SQLException e) {
                     System.out.println("Error: " + e);
-                }
-                Conexion.cerrar();
+                }               
             } catch (Exception e) {
                 System.out.println("Error: " + e);
             }
         }
         Conexion.cerrar();
 
-        System.out.println(valor);
-        System.out.println("estoy aca 2");
-        return valor;
+        System.out.println(listaUS);
+        return listaUS;
     }
 
 }

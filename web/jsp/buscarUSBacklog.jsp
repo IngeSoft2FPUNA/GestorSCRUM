@@ -1,3 +1,5 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelos.UserStory"%>
 <%@page import="controladores.UserstoryControlador"%>
 <%@page import="org.json.simple.JSONObject" %>
 <%@page import="java.sql.ResultSet" %>
@@ -8,7 +10,7 @@
     System.out.println("id_usuario: " + id_usuario + "id_proyecto: " + id_proyecto);
 
     String mensaje = "busqueda exitosa.";
-    String contenido = UserstoryControlador.buscarUSBacklog(id_usuario, id_proyecto);
+    ArrayList<UserStory> contenido = UserstoryControlador.buscarUSBacklog(id_usuario, id_proyecto);
     
 
     JSONObject obj = new JSONObject();
