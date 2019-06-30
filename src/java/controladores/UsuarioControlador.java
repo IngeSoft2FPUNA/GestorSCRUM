@@ -217,6 +217,7 @@ public class UsuarioControlador {
                         usuario.setNombre(rs.getString("nombre_apellido"));
                         usuario.setUsuario(rs.getString("nick_usuario"));
                         usuario.setPassword(rs.getString("password"));
+                        usuario.setRol_sistema(rs.getInt("id_rol_sistema"));
                         System.out.println(Utiles.md5(rs.getString("password")));
 
                         sesion.setAttribute("usuarioLogueado", usuario);

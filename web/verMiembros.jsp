@@ -1,10 +1,13 @@
 <%@page import="modelos.Miembro"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
-
+<%
+    ArrayList<Miembro> listaMiembros = (ArrayList<Miembro>) request.getAttribute("listaMiembros");
+    String id_proyecto = request.getParameter("id_proyecto");
+%>
 <html>
     <head>
-        <title>GESTOR SCRUM</title>
+        <title>Miembros | <%=id_proyecto%></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css"/>
@@ -12,15 +15,11 @@
         <link rel="stylesheet" href="css/estilos.css" type="text/css">
     </head>
     <body>
-        <%
-            ArrayList<Miembro> listaMiembros = (ArrayList<Miembro>) request.getAttribute("listaMiembros");
-            String id_proyecto = request.getParameter("id_proyecto");
-        %>
         <!--    PRODUCT BACKLOG-->
         <div id="panelBacklog" class="panel panel-primary">
             <!--            PANEL HEADER-->
             <div class="panel-heading centrado">
-                MIEMBROS | <%=id_proyecto%>
+                Miembros | <%=id_proyecto%>
             </div>
 
             <!--            PANEL BODY-->
@@ -102,9 +101,12 @@
             </div> 
 
             <!--            PANEL FOOTER-->
-            <div class="panel-footer centrado">
-                <button id="botonSalirBacklog" type="button" class="btn btn-primary btn-sm">Salir</button>
-            </div>
+            <form  action="MainServlet" method="GET">
+                <div class="panel-footer centrado">
+                    <input type="hidden" name="accion" value="home">
+                    <button type="submit" class="btn btn-primary btn-sm">Salir</button>
+                </div>
+            </form>
         </div> 
 
         <!--    MENSJADES DEL SISTEMA-->

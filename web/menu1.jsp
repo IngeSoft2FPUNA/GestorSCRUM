@@ -1,8 +1,17 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelos.UserStory"%>
 <!DOCTYPE html>
-
+<%
+    ArrayList<UserStory> listaMiActividad = (ArrayList<UserStory>) request.getAttribute("listaMiActividad");
+    int id_rol_sistema = (Integer) request.getAttribute("id_rol_sistema");
+    String prioridad = "";
+    String clasePrioridad = "";
+    String estado = "";
+    String claseEstado = "";
+%>
 <html>
     <head>
-        <title>GESTOR SCRUM</title>
+        <title>Inicio</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css"/>
@@ -10,10 +19,9 @@
         <link rel="stylesheet" href="css/estilos.css" type="text/css">
     </head>
     <body>
-
         <!--    BARRA NAVEGACION-->
         <nav class="navbar navbar-default">
-            <div class ="container-fluid">
+            <div class ="container-fluid">              
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapse" 
                             data-toggle="collapse"
@@ -22,22 +30,24 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">DASHBOARD</a>
+                    </button>                
+                    <a class="navbar-brand" href="#">DASHBOARD</a>                     
                 </div>
                 <div class="collpase navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <%if (id_rol_sistema == 1) {%>
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle"
                                data-toggle="dropdown" role="button"
-                               >Menu<span class="caret"></span></a>
+                               >Nuevo<span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="frm/archivos/usuarios">Usuarios</a></li>
-                                <li><a href="frm/archivos/proyectos">Proyectos</a></li>
+                                <li><a href="frm/archivos/usuarios">Usuario</a></li>
+                                <li><a href="frm/archivos/proyectos">Proyecto</a></li>
                             </ul>
                         </li>
                     </ul>
-                    <ul class="nav navbar-nav navbar-right">
+                    <%}%>
+                    <ul class="nav navbar-nav navbar-right">                        
                         <li class="dropdown">
                             <a href="#" 
                                class="dropdown-toggle" 
@@ -49,7 +59,9 @@
                                 </span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="index.html">Salir</a></li>
+                                <li><a href="#"> <span class='glyphicon glyphicon-user'></span>  Mi Perfil</a></li>
+                                <li><a href="#"><span class='glyphicon glyphicon-question-sign'></span>  Acerca de</a></li>
+                                <li><a href="index.html"><span class='glyphicon glyphicon-log-out'></span>  Cerrar Sesion</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -57,15 +69,92 @@
             </div>
         </nav>
 
-        <!--    PRODUCT BACKLOG-->
-        <div id="panelBacklog"></div>  
+        <!--    PANEL MI ACTIVIDAD-->
+        <div id="panelMisProyectos" class="panel panel-primary">
+            <div class="panel-heading centrado">Mi Actividad</div>
+            <div class="panel-body">
 
-        <!--    SPRINT BACKLOG-->
-        <div id="panelSprintBacklog"></div>  
+                <!--TABLA DE RESULTADOS-->
+                <div id="resultado">
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Proyecto</th>
+                                <th>US</th>
+                                <th>Prioridad</th>
+                                <th>Tiempo Trabajado</th>
+                                <th>Estado</th>
+                                <th class="centrado" colspan="2">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaUSBacklog">
+                            <%for (UserStory userStory : listaMiActividad) {
+                                    //se evalua el estado de la prioridad
+                                    if (userStory.getId_prio() == 1) {
+                                        prioridad = "HIGH";
+                                        clasePrioridad = "danger";
+                                    } else if (userStory.getId_prio() == 2) {
+                                        prioridad = "MEDIUM";
+                                        clasePrioridad = "warning";
+                                    } else {
+                                        prioridad = "LOW";
+                                        clasePrioridad = "info";
 
-        <!--    AGREGAR US-->
-        <div id="panelAgregarUS"></div>  
+                                    }
 
+                                    //se evalua el estado del usestory
+                                    if (userStory.getId_estados() == 1) {
+                                        estado = "TO DO";
+                                        claseEstado = "danger";
+                                    } else if (userStory.getId_estados() == 2) {
+                                        estado = "IN PROGRESS";
+                                        claseEstado = "warning";
+                                    } else {
+                                        estado = "DONE";
+                                        claseEstado = "success";
+
+                                    }
+                            %>
+
+                            <tr>                                
+                                <td><%=userStory.getId_proyecto()%></td>
+                                <td><%=userStory.getId_us()%></td>
+                                <td class="<%=clasePrioridad%>"><%=prioridad%></td>
+                                <td><%=userStory.getTiempo_trabajado()%></td>
+                                <td class="<%=claseEstado%>"><%=estado%></td>
+                                <td>
+                                    <form action="MainServlet" method="GET">
+                                        <input type="hidden" name="id_proyecto" value="<%=userStory.getId_proyecto()%>"/>
+                                        <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
+                                        <input type="hidden" name="accion" value="editar_us"/>
+                                        <input type="hidden" name="accion_redireccion" value="ver_product_backlog"/>
+                                        <input type="hidden" name="redireccion" value="productBacklog.jsp"/>
+                                        <button type="submit" class="btn btn-warning btn-sm">
+                                            <span class='glyphicon glyphicon-pencil'></span>
+                                        </button>       
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="MainServlet" method="GET">
+                                        <input type="hidden" name="id_proyecto" value="<%=userStory.getId_proyecto()%>"/>
+                                        <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
+                                        <input type="hidden" name="accion" value="eliminar_us"/>
+                                        <input type="hidden" name="accion_redireccion" value="ver_product_backlog"/>                                              
+                                        <input type="hidden" name="redireccion" value="productBacklog.jsp"/>
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <span class='glyphicon glyphicon-trash'></span>
+                                        </button>       
+                                    </form>
+                                </td>
+                            </tr>
+                            <%}%>                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>       
+        </div>  
+
+        <br><br>
         <!--    PANEL MIS PROYECTOS-->
         <div id="panelMisProyectos" class="panel panel-primary">
             <div class="panel-heading centrado">Mis Proyectos</div>
@@ -97,7 +186,7 @@
                                 <th>Descripcion</th>
                                 <th>Fecha de Entrega</th>
                                 <th>Rol</th>
-                                <th class="centrado" colspan="3">Accion</th>
+                                <th class="centrado" colspan="4">Accion</th>
                             </tr>
                         </thead>
                         <tbody id="contenidoBusqueda">                            
@@ -109,30 +198,6 @@
                             <li id="siguiente"><a href="#">Siguiente<span aria-hidden="true">&rarr;</span></a></li>                        
                         </ul>
                     </nav>
-                </div>
-            </div>       
-        </div>    
-        <!--    PANEL MI ACTIVIDAD-->
-        <div id="panelMisProyectos" class="panel panel-primary">
-            <div class="panel-heading centrado">Mi Actividad</div>
-            <div class="panel-body">
-
-                <!--TABLA DE RESULTADOS-->
-                <div id="resultado">
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>Proyecto</th>
-                                <th>US</th>
-                                <th>Prioridad</th>
-                                <th>Tiempo Trabajado</th>
-                                <th>Estado</th>
-                                <th class="centrado" colspan="3">Accion</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contenidoBusqueda">                            
-                        </tbody>
-                    </table>
                 </div>
             </div>       
         </div>    

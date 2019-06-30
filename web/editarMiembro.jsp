@@ -1,10 +1,14 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="modelos.Usuario"%>
 <!DOCTYPE html>
-
+<%
+    String id_proyecto = request.getParameter("id_proyecto");
+    String id_miembro = request.getParameter("id_miembro");
+    String nombre_miembro = request.getParameter("nombre_miembro");
+%>
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Editar Miembro | <%=id_proyecto%></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=2.0">
         <link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css"/>
@@ -12,15 +16,9 @@
         <link rel="stylesheet" href="css/estilos.css" type="text/css">
     </head>
     <body>
-        <%
-            String id_proyecto = request.getParameter("id_proyecto");
-            String id_miembro = request.getParameter("id_miembro");
-            String nombre_miembro = request.getParameter("nombre_miembro");
-            
-        %>
         <div id="panelAgregarUS" class="panel panel-primary">
             <div class="panel-heading centrado">
-                EDITAR MIEMBRO | <%=id_proyecto%>
+                Editar Miembro | <%=id_proyecto%>
             </div>
             <div class="panel-body">
                 <form action="MainServlet" method="POST">                   
@@ -33,7 +31,7 @@
                             <input class="form-control" name="nombre_miembro" value="<%=nombre_miembro%>" readonly>   
                         </div>
                     </div>
-                    
+
                     <!--ROL-->                    
                     <div class="row">
                         <div class="col-md-2">

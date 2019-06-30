@@ -14,9 +14,10 @@ public class UserStory {
     private int id_prio;
     private int id_responsable;
     private String nombre_responsable;
+    private int story_points;
 
     public UserStory(String id_proyecto, String id_us, String nombre,
-            String descripcion, int tiempo_estimado, int tiempo_trabajado, int id_estados, int id_estados_backlog, int id_prio, int id_responsable) {
+            String descripcion, int tiempo_estimado, int tiempo_trabajado, int id_estados, int id_estados_backlog, int id_prio, int id_responsable, int story_points) {
         this.id_proyecto = id_proyecto;
         this.id_us = id_us;
         this.nombre = nombre;
@@ -28,6 +29,7 @@ public class UserStory {
         this.id_sprint = null;                  //se inicializa en NULL
         this.id_prio = id_prio;                 //se inicializa en 0
         this.id_responsable = id_responsable;                
+        this.story_points = story_points;                
     }
 
     public UserStory() {
@@ -149,10 +151,20 @@ public class UserStory {
         this.nombre_responsable = nombre_responsable;
     }
 
+   public int getStory_points() {
+        return story_points;
+    }
+
+    public void setStory_points(int story_points) {
+        this.story_points = story_points;
+    }    
+    
     @Override
     public String toString() {
-        return "UserStory{" + "id_proyecto=" + id_proyecto + ", id_us=" + id_us + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tiempo_estimado=" + tiempo_estimado + ", tiempo_trabajado=" + tiempo_trabajado + ", id_estados=" + id_estados + ", id_estados_backlog=" + id_estados_backlog + ", id_sprint=" + id_sprint + ", id_prio=" + id_prio + ", id_responsable=" + id_responsable + ", nombre_responsable=" + nombre_responsable + '}';
+        return "UserStory{" + "id_proyecto=" + id_proyecto + ", id_us=" + id_us + ", nombre=" + nombre + ", descripcion=" + descripcion + ", tiempo_estimado=" + tiempo_estimado + ", tiempo_trabajado=" + tiempo_trabajado + ", id_estados=" + id_estados + ", id_estados_backlog=" + id_estados_backlog + ", id_sprint=" + id_sprint + ", id_prio=" + id_prio + ", id_responsable=" + id_responsable + ", nombre_responsable=" + nombre_responsable + ", story_points=" + story_points + '}';
     }
+
+
 
 
 

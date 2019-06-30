@@ -105,7 +105,7 @@
                 <button id="botonAgregar" type="button" class="btn btn-primary btn-sm">Agregar</button>
                 <button id="botonModificar" type="button" class="btn btn-primary btn-sm">Modificar</button>
                 <button id="botonEliminar" type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#confirmarEliminar">Eliminar</button>
-                <button id="botonSalir" type="button" class="btn btn-primary btn-sm">Salir</button>                
+                <button id="botonSalir" type="button" class="btn btn-primary btn-sm" disabled>Salir</button>                
             </div>
         </div>
         <div id="mensajes" class="well well-sm centrado">Mensajes del Sistema.</div>
@@ -170,7 +170,7 @@
             });
             
             //boton salir
-            $("#botonSalir").on('click',function(){ location.href = "../../../menu.html";});
+            $("#botonSalir").on('click',function(){ location.href = "../../../menu1.jsp";});
             
         </script>    
     </body>

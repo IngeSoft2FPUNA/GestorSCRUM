@@ -8,15 +8,17 @@ public class Usuario {
     private int cedula;
     private String email;
     private String password;
+    private int rol_sistema;
     private boolean activo;
 
     public Usuario(String user, String name, int cedula, 
-            String email, String password) {
+            String email, String password, int rol_sistema) {
         this.usuario = user;
         this.nombre = name;
         this.cedula = cedula;
         this.email = email;
         this.password = password;
+        this.rol_sistema = rol_sistema;
     }
 
     public Usuario(int id_usuario, String usuario, String nombre, 
@@ -94,11 +96,19 @@ public class Usuario {
         this.password = password;
     }
 
+    public int getRol_sistema() {
+        return rol_sistema;
+    }
+
+    public void setRol_sistema(int rol_sistema) {
+        this.rol_sistema = rol_sistema;
+    }
+
     @Override
     public String toString() {
-        return "Usuario{" + "usuario=" + usuario + ", nombre=" + nombre 
-                + ", cedula=" + cedula + ", email=" + email 
-                + ", password=" + password + '}';
+        return "Usuario{" + "id_usuario=" + id_usuario + ", usuario=" + usuario + ", nombre=" + nombre + ", cedula=" + cedula + ", email=" + email + ", password=" + password + ", rol_sistema=" + rol_sistema + ", activo=" + activo + '}';
     }
+
+
 
 }

@@ -1,15 +1,26 @@
+<%@page import="modelos.Sprint"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="modelos.UserStory"%>
 <!DOCTYPE html>
-
+<%
+    ArrayList<UserStory> listaTODO = (ArrayList<UserStory>) request.getAttribute("listaTODO");
+    ArrayList<UserStory> listaINPROGRESS = (ArrayList<UserStory>) request.getAttribute("listaINPROGRESS");
+    ArrayList<UserStory> listaDONE = (ArrayList<UserStory>) request.getAttribute("listaDONE");
+    String id_proyecto = request.getParameter("id_proyecto");
+    Sprint sprintActual = (Sprint) request.getAttribute("sprintActual");
+    System.out.println("id_sprint_actual tablero kanban :" + sprintActual.getId_sprint());
+    String prioridad = "";
+    String prioridadClass = "";
+%> 
 <html>
     <head>
-        <title>GESTOR SCRUM</title>
+        <title>Kanban Board | <%=id_proyecto%></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="css/bootstrap-theme.css" type="text/css"/>
         <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="css/estilos.css" type="text/css">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
     </head>
     <style>
         #panelSprint{
@@ -18,18 +29,20 @@
             margin-top: 10px;           
         }
         ul li {
-          display:inline-block;         
-          vertical-align:top;
-          width: 310px;
+            display:inline-block;         
+            vertical-align:top;
+            width: 310px;
         }
         ul li table tbody tr td{
             margin-top: 5px;           
-    
+
         }
         ul li form{
-          display:inline-block;
+            display:inline-block;
+            float: right;
+            margin-bottom: 0;
         }
-        
+
         .highPrio{
             background: #b92c28;
             color: white;
@@ -42,62 +55,91 @@
             background: #2aabd2;
             color: white;
         }
-        
+
+        .ticket{
+            height: 150px;
+            padding: 10px;
+            margin-top: 5%;                
+            box-shadow: 0 4px 8px 4px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+
+        .ticket:hover{
+            -o-transform:rotate(5deg);
+            -webkit-transform:rotate(5deg);
+            -moz-transform:rotate(5deg);   
+            -webkit-transform: scale(1.05);
+            -moz-transform: scale(1.05);
+            -o-transform: scale(1.05);
+        }
+
+
+        .ticketTODO{      
+            background: #ffa8b8;
+        }
+        .ticketINPROGRESS{
+            background: #ffff66;
+        }
+        .ticketDONE{
+            background: #a0d995;
+        }
+
     </style>
-    <body>
-        <%
-            ArrayList<UserStory> listaUs = (ArrayList<UserStory>) request.getAttribute("listaUs");
-            String id_proyecto = request.getParameter("id_proyecto");
-            String estado = "";
-            String prioridad = "";
-            String clase = "";
-            String claseEstado = "";
-            String prioridadClass = "";
-        %>        
+    <body>       
         <!--    PRODUCT BACKLOG-->
         <div id="panelSprintBacklog" class="panel panel-primary">
             <!--            PANEL HEADER-->
             <div class="panel-heading centrado">
-                Sprint Backlog | <%=id_proyecto%>
+                Tablero Kanban | <%=id_proyecto%>
             </div>
 
             <!--            PANEL BODY-->
             <div class="panel-body">
-                <form id="formBuscar">
-                    <input type="hidden" id="bpagina" name="bpagina" value="1"/>
+                <form action="MainServlet" method="GET">
+                    <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
+                    <input type="hidden" name="accion" value="ver_burndown_chart"/>
+                    <button type="submit" class="btn btn-warning btn-sm" formtarget="_blank">
+                        Burndown Chart
+                    </button>       
+                </form>
+                
                     <div class="row">
-                        <div class="col-md-1">
-                            <span>Fecha Inicio</span>                        
+                        <div class="col-md-6 centrado">
+                    <p><b>Fecha Inicio:</b>  <%=sprintActual.getFecha_inicio()%></p>
+                            
                         </div>
-                        <div class="col-md-4">
-                            <input id="bnombre_proyecto" name="bnombre_proyecto" type="text" class="form-control " placeholder="Nombre" readonly/>                        
-                        </div>
-                        <div class="col-md-1">
-                            <span>Fecha Fin</span>                        
-                        </div>
-                        <div class="col-md-4">
-                            <input id="bnombre_proyecto" name="bnombre_proyecto" type="text" class="form-control " placeholder="Nombre" readonly/>                        
-                        </div>
-                        <div class="col-md-2">
-                            <button id="botonBuscar" type="button" class="btn btn-primary btn-sm" >
-                                Finalizar Sprint                                
-                            </button>                        
+                        <div class="col-md-6 centrado">
+                    <p><b>Fecha Fin Estimada:</b> <%=sprintActual.getFecha_fin_estimada()%></p>
+                            
                         </div>
                     </div>
-                </form>
+                    <div class="row">
+                        <div class="col-md-6 centrado">
+                    <p><b>Tiempo Restante:</b> <%=sprintActual.getDuracion_estimada() - sprintActual.getDuracion_real()%> días</p>
+                            
+                        </div>
+                        <div class="col-md-6 centrado">
+                    <p><b>Story Points Estimados:</b> <%=sprintActual.getStory_points_estimados()%></p>
+                            
+                        </div>
+                    </div>
+                    
+                    <p><b>Story Points Realizados:</b> <%=sprintActual.getStory_points_realizados()%></p>
 
-                <!--        TABLA DE RESULTADOS-->
+                <!--TABLA DE RESULTADOS-->
+
+                <!--TO DO-->
                 <ul id="panelSprint">
                     <li>
-                        <table class="table table-bordered table-striped table-hover">
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th class="centrado">TO DO</th>
+                                    <th class="centrado">TO DO (<%=listaTODO.size()%>)</th>
                                 </tr>
                             </thead>
                             <tbody id="listaUSSprint">  
-                                <%for (UserStory userStory : listaUs) {
-                                       if (userStory.getId_prio() == 1) {
+                                <%for (UserStory userStory : listaTODO) {
+                                        if (userStory.getId_prio() == 1) {
                                             prioridad = "HIGH";
                                             prioridadClass = "highPrio";
                                         } else if (userStory.getId_prio() == 2) {
@@ -107,182 +149,181 @@
                                             prioridad = "LOW";
                                             prioridadClass = "lowPrio";
                                         }
-
-                                        if (userStory.getId_estados() == 1) {
-                                            estado = "TO DO";
-                                            claseEstado = "danger";%>
-
-                                <tr>
-                                    <td class="danger">
-                                          <b><%=userStory.getId_us()%> - <%=userStory.getNombre()%></b><br>
-                                        <span class="<%=prioridadClass%>"><%=prioridad%></span><br>
-                                        <%=userStory.getNombre_responsable()%><br>
-
-                                        <form action="MainServlet" method="GET">
-                                            <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
-                                            <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
-                                            <input type="hidden" name="accion" value="editar_us"/>
-                                            <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                            
-                                            <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
-                                            <button type="submit" class="btn btn-warning btn-sm">
-                                                <span class='glyphicon glyphicon-pencil'></span>
-                                            </button>       
-                                        </form>
-
-
-                                        <form action="MainServlet" method="GET">
-                                            <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
-                                            <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
-                                            <input type="hidden" name="accion" value="eliminar_us"/>
-                                            <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
-                                            <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <span class='glyphicon glyphicon-trash'></span>
-                                            </button>       
-                                        </form>
-                                    </td>
-                                </tr>
-
-                                <%}%>                            
-                                <%}%>                            
-                            </tbody>
-                        </table>
-                    </li>
-                    <li>
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="centrado">IN PROGRESS</th>
-                                </tr>
-                            </thead>
-                            <tbody id="listaUSSprint">  
-                                <%for (UserStory userStory : listaUs) {
-                                    if (userStory.getId_prio() == 1) {
-                                            prioridad = "HIGH";
-                                            prioridadClass = "highPrio";
-                                        } else if (userStory.getId_prio() == 2) {
-                                            prioridad = "MEDIUM";
-                                            prioridadClass = "mediumPrio";
-                                        } else {
-                                            prioridad = "LOW";
-                                            prioridadClass = "lowPrio";
-                                        }
-
-                                        if (userStory.getId_estados() == 2) {
-                                            estado = "IN PROGRESS";
-                                            claseEstado = "danger";%>
-
-                                <tr>                                
-                                    <td class="warning">
-                                        <b><%=userStory.getId_us()%> - <%=userStory.getNombre()%></b><br>
-                                        <span class="<%=prioridadClass%>"><%=prioridad%></span><br>
-                                        <%=userStory.getNombre_responsable()%><br>
-
-                                        <form action="MainServlet" method="GET">
-                                            <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
-                                            <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
-                                            <input type="hidden" name="accion" value="editar_us"/>
-                                            <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
-                                            <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
-                                            <button type="submit" class="btn btn-warning btn-sm">
-                                                <span class='glyphicon glyphicon-pencil'></span>
-                                            </button>       
-                                        </form>
-
-
-                                        <form action="MainServlet" method="GET">
-                                            <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
-                                            <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
-                                            <input type="hidden" name="accion" value="eliminar_us"/>
-                                            <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
-                                            <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <span class='glyphicon glyphicon-trash'></span>
-                                            </button>       
-                                        </form>
-                                    </td>
-                                </tr>
-
-                                <%}%>                            
-                                <%}%>                            
-                            </tbody>
-                        </table>
-                    </li>
-                    <li>
-                        <table class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="centrado">DONE</th>
-                                </tr>
-                            </thead>
-                            <tbody id="listaUSSprint">  
-                                <%for (UserStory userStory : listaUs) {
-                                        
-                                    if (userStory.getId_prio() == 1) {
-                                            prioridad = "HIGH";
-                                            prioridadClass = "highPrio";
-                                        } else if (userStory.getId_prio() == 2) {
-                                            prioridad = "MEDIUM";
-                                            prioridadClass = "mediumPrio";
-                                        } else {
-                                            prioridad = "LOW";
-                                            prioridadClass = "lowPrio";
-                                        }
-
-                                        if (userStory.getId_estados() == 3) {
-                                            estado = "DONE";
-                                            claseEstado = "danger";
                                 %>
 
-                                <tr>                                
-                                    <td class="success">
-                                        <b><%=userStory.getId_us()%> - <%=userStory.getNombre()%></b><br>
-                                        <span class="<%=prioridadClass%>"><%=prioridad%></span><br>
-                                        <%=userStory.getNombre_responsable()%><br>
+                                <tr>
+                                    <td>
+                                        <div class="w3-card ticket ticketTODO">
+                                            <b><%=userStory.getId_us()%> - <%=userStory.getNombre()%></b><br>
+                                            <%=userStory.getStory_points()%> | <span class="<%=prioridadClass%>"><%=prioridad%></span><br>
+                                            <%=userStory.getNombre_responsable()%><br>
 
-                                        <form action="MainServlet" method="GET">
-                                            <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
-                                            <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
-                                            <input type="hidden" name="accion" value="editar_us"/>
-                                            <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
-                                            <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
-                                            <button type="submit" class="btn btn-warning btn-sm">
-                                                <span class='glyphicon glyphicon-pencil'></span>
-                                            </button>       
-                                        </form>
+                                            <form action="MainServlet" method="GET">
+                                                <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
+                                                <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
+                                                <input type="hidden" name="id_sprint_actual" value="<%=sprintActual.getId_sprint()%>"/>
+                                                <input type="hidden" name="accion" value="editar_us"/>
+                                                <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                            
+                                                <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
+                                                <button type="submit" class="btn btn-warning btn-sm">
+                                                    <span class='glyphicon glyphicon-pencil'></span>
+                                                </button>       
+                                            </form>
 
 
                                             <form action="MainServlet" method="GET">
-                                            <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
-                                            <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
-                                            <input type="hidden" name="accion" value="eliminar_us"/>
-                                            <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
-                                            <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <span class='glyphicon glyphicon-trash'></span>
-                                            </button>       
-                                        </form>
+                                                <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
+                                                <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
+                                                <input type="hidden" name="id_sprint_actual" value="<%=sprintActual.getId_sprint()%>"/>
+                                                <input type="hidden" name="accion" value="eliminar_us"/>
+                                                <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
+                                                <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <span class='glyphicon glyphicon-trash'></span>
+                                                </button>       
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
 
                                 <%}%>                            
+                            </tbody>
+                        </table>
+                    </li>
+
+                    <!--IN PROGRESS-->
+                    <li>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="centrado">IN PROGRESS (<%=listaINPROGRESS.size()%>)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaUSSprint">  
+                                <%for (UserStory userStory : listaINPROGRESS) {
+                                        if (userStory.getId_prio() == 1) {
+                                            prioridad = "HIGH";
+                                            prioridadClass = "highPrio";
+                                        } else if (userStory.getId_prio() == 2) {
+                                            prioridad = "MEDIUM";
+                                            prioridadClass = "mediumPrio";
+                                        } else {
+                                            prioridad = "LOW";
+                                            prioridadClass = "lowPrio";
+                                        }
+                                %>
+
+                                <tr>                                
+                                    <td>
+                                        <div class="w3-card ticket ticketINPROGRESS">
+                                            <b><%=userStory.getId_us()%> - <%=userStory.getNombre()%></b><br>
+                                            <%=userStory.getStory_points()%> | <span class="<%=prioridadClass%>"><%=prioridad%></span><br>
+                                            <%=userStory.getNombre_responsable()%><br>
+
+                                            <form action="MainServlet" method="GET">
+                                                <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
+                                                <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
+                                                <input type="hidden" name="id_sprint_actual" value="<%=sprintActual.getId_sprint()%>"/>
+                                                <input type="hidden" name="accion" value="editar_us"/>
+                                                <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
+                                                <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
+                                                <button type="submit" class="btn btn-warning btn-sm">
+                                                    <span class='glyphicon glyphicon-pencil'></span>
+                                                </button>       
+                                            </form>
+
+
+                                            <form action="MainServlet" method="GET">
+                                                <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
+                                                <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
+                                                <input type="hidden" name="id_sprint_actual" value="<%=sprintActual.getId_sprint()%>"/>
+                                                <input type="hidden" name="accion" value="eliminar_us"/>
+                                                <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
+                                                <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <span class='glyphicon glyphicon-trash'></span>
+                                                </button>       
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+
                                 <%}%>                            
                             </tbody>
                         </table>
                     </li>
-                    <!--                    <nav>
-                                            <ul class="pager">
-                                                <li id="anterior"><a href="#"><span aria-hidden="true">&larr;</span></a>Anterior</li>
-                                                <li id="siguiente"><a href="#">Siguiente<span aria-hidden="true">&rarr;</span></a></li>                        
-                                            </ul>
-                                        </nav>-->
+
+                    <!--DONE-->
+                    <li>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="centrado">DONE (<%=listaDONE.size()%>)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listaUSSprint">  
+                                <%for (UserStory userStory : listaDONE) {
+
+                                        if (userStory.getId_prio() == 1) {
+                                            prioridad = "HIGH";
+                                            prioridadClass = "highPrio";
+                                        } else if (userStory.getId_prio() == 2) {
+                                            prioridad = "MEDIUM";
+                                            prioridadClass = "mediumPrio";
+                                        } else {
+                                            prioridad = "LOW";
+                                            prioridadClass = "lowPrio";
+                                        }
+                                %>
+
+                                <tr>                                
+                                    <td>
+                                        <div class="w3-card ticket ticketDONE">
+                                            <b><%=userStory.getId_us()%> - <%=userStory.getNombre()%></b><br>
+                                            <%=userStory.getStory_points()%> | <span class="<%=prioridadClass%>"><%=prioridad%></span><br>
+                                            <%=userStory.getNombre_responsable()%><br>
+
+                                            <form action="MainServlet" method="GET">
+                                                <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
+                                                <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
+                                                <input type="hidden" name="id_sprint_actual" value="<%=sprintActual.getId_sprint()%>"/>
+                                                <input type="hidden" name="accion" value="editar_us"/>
+                                                <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
+                                                <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
+                                                <button type="submit" class="btn btn-warning btn-sm">
+                                                    <span class='glyphicon glyphicon-pencil'></span>
+                                                </button>       
+                                            </form>
+
+
+                                            <form action="MainServlet" method="GET">
+                                                <input type="hidden" name="id_proyecto" value="<%=id_proyecto%>"/>
+                                                <input type="hidden" name="id_us" value="<%=userStory.getId_us()%>"/>
+                                                <input type="hidden" name="id_sprint_actual" value="<%=sprintActual.getId_sprint()%>"/>
+                                                <input type="hidden" name="accion" value="eliminar_us"/>
+                                                <input type="hidden" name="accion_redireccion" value="ver_sprint_backlog"/>                                              
+                                                <input type="hidden" name="redireccion" value="sprintBacklog.jsp"/>
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <span class='glyphicon glyphicon-trash'></span>
+                                                </button>       
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>        
+                                <%}%>                            
+                            </tbody>
+                        </table>
+                    </li>
                 </ul>
             </div> 
 
             <!--            PANEL FOOTER-->
-            <div class="panel-footer centrado">
-                <button id="botonSalirSprintBacklog" type="button" class="btn btn-primary btn-sm">Salir</button>
-            </div>
+            <form  action="MainServlet" method="GET">
+                <div class="panel-footer centrado">
+                    <input type="hidden" name="accion" value="home">
+                    <button type="submit" class="btn btn-primary btn-sm">Salir</button>
+                </div>
+            </form>
         </div> 
 
         <!--    MENSJADES DEL SISTEMA-->
