@@ -23,13 +23,14 @@ public class UsuarioControlador {
 
         if (Conexion.conectar()) {
             String sql = "INSERT INTO usuarios(nombre_apellido, cedula, "
-                    + "correo_electronico, nick_usuario, password, activo)"
+                    + "correo_electronico, nick_usuario, password, activo, id_rol_sistema)"
                     + "values('" + usuario.getNombre() + "'"
                     + "," + usuario.getCedula()
                     + ",'" + usuario.getEmail() + "'"
                     + ",'" + usuario.getUsuario() + "'"
                     + ",'" + Utiles.md5(Utiles.quitarGuiones(usuario.getPassword())) + "'"
                     + ",'" + cadena_activo + "'"
+                    + ",'" + usuario.getRol_sistema() + "'"
                     + ")";
 
             System.out.println(sql);
@@ -57,6 +58,7 @@ public class UsuarioControlador {
                     usuario.setUsuario(rs.getString("nick_usuario"));
                     usuario.setPassword(rs.getString("password"));
                     usuario.setActivo(rs.getBoolean("activo"));
+                    usuario.setRol_sistema(rs.getInt("id_rol_sistema"));
                 } else {
                     usuario.setCedula(0);
                     usuario.setNombre("");
@@ -107,8 +109,8 @@ public class UsuarioControlador {
         if (Conexion.conectar()) {
 
             try {
-                String sql = "SELECT * FROM usuarios WHERE activo = 'TRUE' "
-                        + "AND UPPER(nombre_apellido) LIKE '%"
+                String sql = "SELECT * FROM usuarios WHERE "
+                        + "UPPER(nombre_apellido) LIKE '%"
                         + nombre.toUpperCase() + "%'" + "ORDER BY id_usuario offset "
                         + offset + "LIMIT "
                         + Utiles.REGISTRO_PAGINA;
@@ -159,6 +161,7 @@ public class UsuarioControlador {
                     + "correo_electronico = '" + usuario.getEmail() + "',"
                     + "nick_usuario = '" + usuario.getUsuario() + "',"
                     + "password = '" + Utiles.md5(Utiles.quitarGuiones(usuario.getPassword())) + "',"
+                    + "id_rol_sistema = '" + usuario.getRol_sistema() + "',"
                     + "activo = '" + cadena_activo + "'"
                     + "WHERE cedula= '" + id_usuario + "'";
 

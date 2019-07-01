@@ -17,22 +17,22 @@
 
     Usuario usuario = new Usuario();
     usuario.setCedula(id_usuario);
-    String activo = "";
+    String activo = "false";
  /*   usuario.setNombre_usuario(nombreUsuario);
     usuario.setApellido_usuario(apellidoUsuario);
     usuario.setCi_usuario(ciUsuario);
 */
     
-    UsuarioControlador.buscarId(usuario);
+    usuario = UsuarioControlador.buscarId(usuario);
 
     if ( usuario.getCedula()!= 0) {
         tipo = "success";
         mensaje = "Datos encontrados";
         nuevo = "false";
         if(usuario.isActivo()){
-            activo = "TRUE";
+            activo = "true";
         }else{
-            activo = "FALSE";
+            activo = "false";
         }
     }else{
         usuario = new Usuario();
@@ -49,6 +49,7 @@
     obj.put("correo", usuario.getEmail());
     obj.put("login_usuario", usuario.getUsuario());
     obj.put("password_usuario", usuario.getPassword());
+    obj.put("id_rol_sistema", usuario.getRol_sistema());
     obj.put("activo", activo);
     
     out.print(obj);

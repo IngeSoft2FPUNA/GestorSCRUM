@@ -170,8 +170,8 @@
                         </div>
                         <div class="col-md-5">
                             <select class="form-control" id="id_estado_backlog" name="id_estado_backlog">
-                                <option value="4">PRODUCT</option>
-                                <option value="5">SPRINT</option>
+                                <option value="5">PRODUCT</option>
+                                <option value="4">SPRINT</option>
                             </select>    
                         </div>
                     </div>

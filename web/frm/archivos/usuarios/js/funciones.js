@@ -19,6 +19,7 @@ function buscarIdUsuario(){
             $("#correo_electronico").val(json.correo);
             $("#nick_usuario").val(json.login_usuario);
             $("#password_usuario").val(json.password_usuario);
+            $("#id_rol_sistema").val(json.id_rol_sistema);
             $("#activo_usuario").val(json.activo);
             
             if (json.nuevo === "true") {
@@ -32,15 +33,13 @@ function buscarIdUsuario(){
                 $("#botonEliminar").prop('disabled',false);
                 //siguienteCampo("#nombre_usuario","#botonAgregar",true); 
                 
-                if (json.activo==="TRUE") {
-                    console.log("true");
-                    $("#activoRadioButton").prop('checked',true);
-                    $("#inactivoRadioButton").prop('checked',false);
-                }else{
-                    console.log("false");                    
-                    $("#activoRadioButton").prop('checked',false);
-                    $("#inactivoRadioButton").prop('checked',true);                    
-                }
+//                if (json.activo==="true") {
+//                    console.log("true");
+//                    $("#activo_usuario").val(json.activo);
+//                }else{
+//                    console.log("false");                   
+//                    $("#activo_usuario").val(json.activo);                    
+//                }
             }            
         },
         error: function(e){

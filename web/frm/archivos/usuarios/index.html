@@ -83,22 +83,27 @@
                     </div>
                     <div class="row">
                         <div class="col-md-11">
+                            <span>Rol</span>
+                        </div>
+                        <div class="col-md-11">
+                            <select class="form-control" id="id_rol_sistema" name="id_rol_sistema">
+                                <option value="1">ADMIN</option>
+                                <option value="0">USER</option>
+                            </select>  
+                        </div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-md-11">
                             <span>Activo</span>
                         </div>
                         <div class="col-md-11">
-                            <!-- Default unchecked -->
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" id="inactivoRadioButton" name="activo_usuario" value="false">
-                              <label class="custom-control-label" for="inactivoRadioButton">Inactivo</label>
-                            </div>
-
-                            <!-- Default checked -->
-                            <div class="custom-control custom-radio">
-                              <input type="radio" class="custom-control-input" id="activoRadioButton" name="activo_usuario" value="true" checked>
-                              <label class="custom-control-label" for="activoRadioButton">Activo</label>
-                            </div>
+                            <select class="form-control" id="activo_usuario" name="activo_usuario">
+                                <option value="true">ACTIVO</option>
+                                <option value="false">INACTIVO</option>
+                            </select>  
                         </div>
                     </div>
+
                 </form>
             </div>
             <div class="panel-footer centrado">

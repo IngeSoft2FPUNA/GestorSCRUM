@@ -12,6 +12,7 @@
     String correo_electronico = request.getParameter("correo_electronico");
     String nick_usuario = request.getParameter("nick_usuario");
     String password_usuario = request.getParameter("password_usuario");
+    int id_rol_sistema = Integer.parseInt(request.getParameter("id_rol_sistema"));
     String activo_usuario = request.getParameter("activo_usuario");
 
     System.out.println("activo: "+activo_usuario);
@@ -31,6 +32,7 @@
     usuario.setEmail(correo_electronico);
     usuario.setUsuario(nick_usuario);
     usuario.setPassword(password_usuario);
+    usuario.setRol_sistema(id_rol_sistema);
     usuario.setActivo(activo);
     
     //se intenta agregar un nuevo usuario a la bd
