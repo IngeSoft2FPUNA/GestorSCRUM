@@ -25,7 +25,7 @@
 
                     <!--PROYECTO-->
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Proyecto</span>                            
                         </div>
                         <div class="col-md-5">
@@ -33,14 +33,15 @@
                                    name="id_proyecto" 
                                    value="<%=id_proyecto%>" 
                                    type="text"
-                                   class="form-control input-sm" 
+                                   class="form-control" 
                                    placeholder="Proyecto"
                                    readonly>                            
                         </div>                                                                
                     </div>
+                    
                     <!--ID US-->
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>ID-US</span>
                         </div>
                         <div class="col-md-5">
@@ -48,7 +49,7 @@
                                 id="id_us" 
                                 name="id_us" 
                                 type="text" 
-                                class="form-control input-sm" 
+                                class="form-control" 
                                 placeholder="ID US" 
                                 onkeyup="this.value = this.value.toUpperCase()">
                         </div>
@@ -56,7 +57,7 @@
 
                     <!--RESPONSABLE-->
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Responsable</span>                            
                         </div>
                         <div class="col-md-5">
@@ -70,14 +71,14 @@
 
                     <!--NOMBRE-->                   
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Nombre</span>
                         </div>
                         <div class="col-md-5">
                             <input id="nombre_us" 
                                    name="nombre_us" 
                                    type="text" 
-                                   class="form-control input-sm" 
+                                   class="form-control" 
                                    placeholder="Nombre" 
                                    onkeyup="this.value = this.value.toUpperCase()">
                         </div>
@@ -85,13 +86,13 @@
 
                     <!--DESCRIPCION-->                    
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Descrpcion</span>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <textarea id="descripcion_us" 
                                       name="descripcion_us" 
-                                      class="form-control input-sm" 
+                                      class="form-control" 
                                       placeholder="Descripcion" 
                                       onkeyup="this.value = this.value.toUpperCase()"></textarea>
                         </div>
@@ -99,14 +100,14 @@
 
                     <!--TIEMPO ESTIMADO-->                   
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Tiempo Estimado</span>
                         </div>
                         <div class="col-md-5">
                             <input id="tiempo_estimado_us" 
                                    name="tiempo_estimado_us" 
                                    type="number" 
-                                   class="form-control input-sm" 
+                                   class="form-control" 
                                    placeholder="Tiempo Estimado" 
                                    onkeyup="this.value = this.value.toUpperCase()"                                   
                                    >
@@ -115,7 +116,7 @@
 
                     <!--TIEMPO TRABAJADO-->                    
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Tiempo Trabajado</span>
                         </div>
                         <div class="col-md-5">
@@ -123,7 +124,7 @@
                                    name="tiempo_trabajado_us"
                                    value ="0"
                                    type="number" 
-                                   class="form-control input-sm" 
+                                   class="form-control" 
                                    placeholder="Tiempo Trabajado" 
                                    onkeyup="this.value = this.value.toUpperCase()"
                                    readonly
@@ -133,7 +134,7 @@
 
                     <!--PRIORIDAD-->             
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Prioridad</span>
                         </div>
                         <div class="col-md-5">
@@ -148,7 +149,7 @@
 
                     <!--STORY POINTS-->             
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Story Points (Dificultad/Incertidumbre/Esfuerzo)</span>
                         </div>
                         <div class="col-md-5">
@@ -165,7 +166,7 @@
 
                     <!--BACKLOG-->                    
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>Backlog</span>
                         </div>
                         <div class="col-md-5">
@@ -178,7 +179,7 @@
 
                     <!--ESTADO-->                    
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <span>ESTADO</span>
                         </div>
                         <div class="col-md-5">
